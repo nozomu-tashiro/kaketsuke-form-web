@@ -1,0 +1,16 @@
+{
+  "name": "application-form-system",
+  "version": "1.0.0",
+  "description": "駆付けサービス入会申込書PDF出力Webアプリケーション",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && nodemon server.js",
+    "dev:frontend": "cd frontend && npm start",
+    "build": "cd frontend && npm run build",
+    "start": "cd backend && node server.js",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install"
+  },
+  "keywords": ["application", "pdf", "form"],
+  "author": "",
+  "license": "MIT"
+}
