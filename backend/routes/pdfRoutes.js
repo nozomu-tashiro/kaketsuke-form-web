@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const pdfGenerator = require('../utils/pdfGenerator');
 const pdfGeneratorV2 = require('../utils/pdfGeneratorV2');
+const pdfGeneratorV3 = require('../utils/pdfGeneratorV3');
+const pdfGeneratorV4 = require('../utils/pdfGeneratorV4');
 
 // Generate PDF route
 router.post('/generate', async (req, res) => {
@@ -16,8 +18,8 @@ router.post('/generate', async (req, res) => {
       });
     }
 
-    // Generate PDF using V2 (improved layout based on Excel template)
-    const pdfBuffer = await pdfGeneratorV2.generatePDF(formData);
+    // Generate PDF using V4 (compact layout, exact 2-page output)
+    const pdfBuffer = await pdfGeneratorV4.generatePDF(formData);
     
     // Set response headers
     res.setHeader('Content-Type', 'application/pdf');

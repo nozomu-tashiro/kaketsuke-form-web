@@ -170,14 +170,15 @@ const ApplicationForm = () => {
   };
 
   // Get available payment methods based on selected product
+  // 1年更新は最後に配置（基本的に選ばれないため）
   const getAvailablePaymentMethods = () => {
     switch (formData.selectedProduct) {
       case 'anshin-support-24':
       case 'home-assist-24':
         return [
           { value: 'monthly', label: '月払' },
-          { value: 'yearly-1', label: '年払（1年更新）' },
-          { value: 'yearly-2', label: '年払（2年更新）' }
+          { value: 'yearly-2', label: '年払（2年更新）' },
+          { value: 'yearly-1', label: '年払（1年更新）', warning: true }
         ];
       case 'anshin-full-support':
         return [{ value: 'monthly', label: '月払' }];
@@ -507,19 +508,33 @@ const ApplicationForm = () => {
             <label className="form-label">
               支払方法 <span className="required">*</span>
             </label>
-            <select
-              name="paymentMethod"
-              value={formData.paymentMethod}
-              onChange={handleInputChange}
-              className="form-select"
-              required
-            >
+            <div className="payment-method-group">
               {getAvailablePaymentMethods().map(method => (
-                <option key={method.value} value={method.value}>
-                  {method.label}
-                </option>
+                <label 
+                  key={method.value} 
+                  className={`payment-method-label ${method.warning ? 'warning-option' : ''}`}
+                  title={method.warning ? '※１年更新プランは基本的に取り扱っておりません' : ''}
+                >
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value={method.value}
+                    checked={formData.paymentMethod === method.value}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <span>{method.label}</span>
+                  {method.warning && (
+                    <span className="warning-badge">⚠️</span>
+                  )}
+                </label>
               ))}
-            </select>
+            </div>
+            {formData.paymentMethod === 'yearly-1' && (
+              <div className="warning-message">
+                ⚠️ ※１年更新プランは基本的に取り扱っておりません。（営業担当にお問い合わせください）
+              </div>
+            )}
           </div>
 
           <div className="form-row">
