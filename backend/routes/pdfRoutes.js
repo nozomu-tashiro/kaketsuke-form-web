@@ -4,6 +4,7 @@ const pdfGenerator = require('../utils/pdfGenerator');
 const pdfGeneratorV2 = require('../utils/pdfGeneratorV2');
 const pdfGeneratorV3 = require('../utils/pdfGeneratorV3');
 const pdfGeneratorV4 = require('../utils/pdfGeneratorV4');
+const pdfGeneratorV5 = require('../utils/pdfGeneratorV5');
 
 // Generate PDF route
 router.post('/generate', async (req, res) => {
@@ -18,8 +19,8 @@ router.post('/generate', async (req, res) => {
       });
     }
 
-    // Generate PDF using V4 (compact layout, exact 2-page output)
-    const pdfBuffer = await pdfGeneratorV4.generatePDF(formData);
+    // Generate PDF using V5 (template-based with Japanese font support)
+    const pdfBuffer = await pdfGeneratorV5.generatePDF(formData);
     
     // Set response headers
     res.setHeader('Content-Type', 'application/pdf');
