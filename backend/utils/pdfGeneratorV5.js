@@ -20,16 +20,34 @@ class PDFGeneratorV5 {
   
   constructor() {
     this.templatesDir = path.join(__dirname, '../templates');
-    this.monthlyTemplatePath = path.join(this.templatesDir, 'monthly_template.pdf');
-    this.yearlyTemplatePath = path.join(this.templatesDir, 'yearly_template.pdf');
     this.fontPath = path.join(this.templatesDir, 'ipag.ttf');
+  }
+
+  /**
+   * 商品と支払方法に応じてテンプレートを選択
+   */
+  getTemplatePath(product, paymentMethod) {
+    const isYearly = paymentMethod && paymentMethod.startsWith('yearly');
+    const paymentType = isYearly ? 'yearly' : 'monthly';
+    
+    // 商品IDをテンプレート名に変換
+    const templateName = `${product}_${paymentType}.pdf`;
+    const templatePath = path.join(this.templatesDir, templateName);
+    
+    // テンプレートファイルが存在するか確認
+    if (fs.existsSync(templatePath)) {
+      return templatePath;
+    }
+    
+    // フォールバック: 旧テンプレート
+    console.warn(`Template not found: ${templateName}, using fallback`);
+    return path.join(this.templatesDir, isYearly ? 'yearly_template.pdf' : 'monthly_template.pdf');
   }
 
   async generatePDF(formData) {
     try {
-      // 支払方法に応じてテンプレートを選択
-      const isYearly = formData.paymentMethod && formData.paymentMethod.startsWith('yearly');
-      const templatePath = isYearly ? this.yearlyTemplatePath : this.monthlyTemplatePath;
+      // 商品と支払方法に応じてテンプレートを選択
+      const templatePath = this.getTemplatePath(formData.selectedProduct, formData.paymentMethod);
       
       // テンプレートPDFを読み込み
       const templateBytes = fs.readFileSync(templatePath);
