@@ -479,20 +479,20 @@ class PDFGeneratorV5 {
       }
       
       // === 代理店情報 ===
-      // PDFテンプレート解析による正確な座標
+      // ユーザー提供の座標表に基づく正確な配置
       // PDF座標系: 原点(0,0)は左下、Yは下から上へ増加
       const agentFontSize = fontSize.large; // 12pt
       const lineHeight = 13; // 行間
       
-      // Box 1: 販売店名（左側・上寄せ）
-      // Rectangle #37: X: 150.2-462.0 (width: 311.8pt), Y from bottom: 172.2-202.0
+      // Box 1: 販売店名
+      // X座標: 176, Y座標(下から): 209, 最大幅: 305pt, 配置: 左寄せ・上寄せ
       if (agentInfo.name) {
-        const maxWidth = 305; // 311.8pt - padding
+        const maxWidth = 305;
         const nameLines = this.splitTextIntoLines(agentInfo.name, maxWidth, agentFontSize, font);
         nameLines.forEach((line, index) => {
           page.drawText(line, {
-            x: 153, // Left align with 3pt padding
-            y: 199 - (index * lineHeight), // Top align with 3pt padding
+            x: 176,
+            y: 209 - (index * lineHeight),
             size: agentFontSize,
             font: font,
             color: rgb(0, 0, 0)
@@ -500,15 +500,15 @@ class PDFGeneratorV5 {
         });
       }
       
-      // Box 2: 電話番号（左側・Box1の下・上寄せ）
-      // Same X as Box 1, Y from bottom: ~145-172.2
+      // Box 2: 電話番号
+      // X座標: 176, Y座標(下から): 169, 最大幅: 305pt, 配置: 左寄せ・上寄せ
       if (agentInfo.phone) {
         const maxWidth = 305;
         const phoneLines = this.splitTextIntoLines(agentInfo.phone, maxWidth, agentFontSize, font);
         phoneLines.forEach((line, index) => {
           page.drawText(line, {
-            x: 153, // Same X as Box 1
-            y: 169 - (index * lineHeight), // Below Box 1, top aligned
+            x: 176,
+            y: 169 - (index * lineHeight),
             size: agentFontSize,
             font: font,
             color: rgb(0, 0, 0)
@@ -516,15 +516,15 @@ class PDFGeneratorV5 {
         });
       }
       
-      // Box 3: 販売店コード（右側上段・上寄せ）
-      // Rectangle #36: X: 462.0-552.8 (width: 90.7pt), Y from bottom: 172.2-202.0
+      // Box 3: 販売店コード
+      // X座標: 465, Y座標(下から): 199, 最大幅: 85pt, 配置: 左寄せ・上寄せ
       if (agentInfo.code) {
-        const maxWidth = 85; // 90.7pt - padding
+        const maxWidth = 85;
         const codeLines = this.splitTextIntoLines(agentInfo.code, maxWidth, agentFontSize, font);
         codeLines.forEach((line, index) => {
           page.drawText(line, {
-            x: 465, // Left align with 3pt padding
-            y: 199 - (index * lineHeight), // Top align, same as Box 1
+            x: 465,
+            y: 199 - (index * lineHeight),
             size: agentFontSize,
             font: font,
             color: rgb(0, 0, 0)
@@ -532,15 +532,15 @@ class PDFGeneratorV5 {
         });
       }
       
-      // Box 4: 担当者名（右側下段・上寄せ）
-      // Same X as Box 3, Y from bottom: ~145-172.2
+      // Box 4: 担当者名
+      // X座標: 465, Y座標(下から): 179, 最大幅: 85pt, 配置: 左寄せ・上寄せ
       if (agentInfo.representativeName) {
         const maxWidth = 85;
         const repLines = this.splitTextIntoLines(agentInfo.representativeName, maxWidth, agentFontSize, font);
         repLines.forEach((line, index) => {
           page.drawText(line, {
-            x: 465, // Same X as Box 3
-            y: 169 - (index * lineHeight), // Below Box 3, top aligned
+            x: 465,
+            y: 179 - (index * lineHeight),
             size: agentFontSize,
             font: font,
             color: rgb(0, 0, 0)
