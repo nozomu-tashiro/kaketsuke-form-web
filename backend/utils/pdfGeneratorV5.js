@@ -121,8 +121,8 @@ class PDFGeneratorV5 {
       if (applicantNameKana) {
         const kanaText = this.fitTextInBox(applicantNameKana, 270, fontSize.small, font);
         page.drawText(kanaText, {
-          x: 145,
-          y: height - 176,
+          x: 127,
+          y: height - 155,
           size: fontSize.small,
           font: font,
           color: rgb(0, 0, 0)
@@ -132,8 +132,8 @@ class PDFGeneratorV5 {
       // === 固定電話 ===
       if (homePhone) {
         page.drawText(homePhone, {
-          x: 445,
-          y: height - 175,
+          x: 390,
+          y: height - 157,
           size: fontSize.small,
           font: font,
           color: rgb(0, 0, 0)
@@ -144,8 +144,8 @@ class PDFGeneratorV5 {
       if (applicantName) {
         const nameText = this.fitTextInBox(applicantName, 270, fontSize.normal, font);
         page.drawText(nameText, {
-          x: 145,
-          y: height - 199,
+          x: 127,
+          y: height - 175,
           size: fontSize.normal,
           font: font,
           color: rgb(0, 0, 0)
@@ -155,8 +155,8 @@ class PDFGeneratorV5 {
       // === 携帯電話 ===
       if (mobilePhone) {
         page.drawText(mobilePhone, {
-          x: 445,
-          y: height - 197,
+          x: 390,
+          y: height - 177,
           size: fontSize.small,
           font: font,
           color: rgb(0, 0, 0)
@@ -167,22 +167,22 @@ class PDFGeneratorV5 {
       if (birthDate) {
         const dateParts = this.parseDateString(birthDate);
         page.drawText(dateParts.year, {
-          x: 205,
-          y: height - 226,
+          x: 434,
+          y: height - 178,
           size: fontSize.small,
           font: font,
           color: rgb(0, 0, 0)
         });
         page.drawText(dateParts.month, {
-          x: 262,
-          y: height - 226,
+          x: 473,
+          y: height - 178,
           size: fontSize.small,
           font: font,
           color: rgb(0, 0, 0)
         });
         page.drawText(dateParts.day, {
-          x: 298,
-          y: height - 226,
+          x: 504,
+          y: height - 178,
           size: fontSize.small,
           font: font,
           color: rgb(0, 0, 0)
@@ -191,10 +191,10 @@ class PDFGeneratorV5 {
 
       // === 性別 ===
       if (gender) {
-        const xPos = gender === 'male' ? 535 : 583;
+        const xPos = gender === 'male' ? 535 : 560;
         page.drawText('✓', {
           x: xPos,
-          y: height - 223,
+          y: height - 178,
           size: fontSize.normal,
           font: font,
           color: rgb(0, 0, 0)
@@ -202,12 +202,12 @@ class PDFGeneratorV5 {
       }
 
       // === 申込者住所 ===
-      const applicantAddressY = height - 269;
+      const applicantAddressY = height - 216;
       if (propertyAddress) {
-        const lines = this.splitTextIntoLines(propertyAddress, 440, fontSize.small, font);
+        const lines = this.splitTextIntoLines(propertyAddress, 480, fontSize.small, font);
         lines.forEach((line, idx) => {
           page.drawText(line, {
-            x: 180,
+            x: 114,
             y: applicantAddressY - (idx * 10),
             size: fontSize.small,
             font: font,
@@ -217,13 +217,13 @@ class PDFGeneratorV5 {
       }
 
       // === 対象物件 (LEFT COLUMN) ===
-      const propertyY = height - 322;
+      const propertyY = height - 267;
       
       // 物件名フリガナ
       if (propertyNameKana) {
         const kanaText = this.fitTextInBox(propertyNameKana, 185, fontSize.small, font);
         page.drawText(kanaText, {
-          x: 155,
+          x: 136,
           y: propertyY,
           size: fontSize.small,
           font: font,
@@ -235,8 +235,8 @@ class PDFGeneratorV5 {
       if (propertyName) {
         const nameText = this.fitTextInBox(propertyName, 185, fontSize.normal, font);
         page.drawText(nameText, {
-          x: 155,
-          y: propertyY - 23,
+          x: 136,
+          y: height - 285,
           size: fontSize.normal,
           font: font,
           color: rgb(0, 0, 0)
@@ -244,13 +244,13 @@ class PDFGeneratorV5 {
       }
 
       // === 入居者・同居人 (RIGHT COLUMN) ===
-      let residentY = height - 322;
+      let residentY = height - 267;
       residents.slice(0, 3).forEach((resident, index) => {
         // フリガナ
         if (resident.nameKana) {
           const kanaText = this.fitTextInBox(resident.nameKana, 155, fontSize.small, font);
           page.drawText(kanaText, {
-            x: 378,
+            x: 324,
             y: residentY,
             size: fontSize.small,
             font: font,
@@ -261,7 +261,7 @@ class PDFGeneratorV5 {
         // 続柄
         if (resident.relationship) {
           page.drawText(resident.relationship, {
-            x: 565,
+            x: 520,
             y: residentY,
             size: fontSize.small,
             font: font,
@@ -269,13 +269,13 @@ class PDFGeneratorV5 {
           });
         }
         
-        residentY -= 16;
+        residentY -= 18;
         
         // お名前
         if (resident.name) {
           const nameText = this.fitTextInBox(resident.name, 155, fontSize.normal, font);
           page.drawText(nameText, {
-            x: 378,
+            x: 324,
             y: residentY,
             size: fontSize.normal,
             font: font,
@@ -283,14 +283,14 @@ class PDFGeneratorV5 {
           });
         }
         
-        residentY -= 24;
+        residentY -= 26;
       });
 
       // 号室/部屋番号 (RIGHT SIDE)
       if (roomNumber) {
         page.drawText(roomNumber, {
-          x: 565,
-          y: propertyY - 23,
+          x: 560,
+          y: height - 285,
           size: fontSize.small,
           font: font,
           color: rgb(0, 0, 0)
@@ -298,27 +298,27 @@ class PDFGeneratorV5 {
       }
 
       // === サービス期間 ===
-      const serviceY = height - 401;
+      const serviceY = height - 337;
       
       // 開始日
       if (applicationDate) {
         const dateParts = this.parseDateString(applicationDate);
         page.drawText(dateParts.year, {
-          x: 178,
+          x: 174,
           y: serviceY,
           size: fontSize.small,
           font: font,
           color: rgb(0, 0, 0)
         });
         page.drawText(dateParts.month, {
-          x: 232,
+          x: 217,
           y: serviceY,
           size: fontSize.small,
           font: font,
           color: rgb(0, 0, 0)
         });
         page.drawText(dateParts.day, {
-          x: 265,
+          x: 248,
           y: serviceY,
           size: fontSize.small,
           font: font,
@@ -350,7 +350,7 @@ class PDFGeneratorV5 {
 
       // === 緊急連絡先（シニア向けサービス選択時） ===
       if (selectedOptions.includes('senior-watch') && emergencyContact.name) {
-        const emergencyY = height - 517;
+        const emergencyY = height - 424;
         
         // フリガナ
         if (emergencyContact.nameKana) {
