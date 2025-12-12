@@ -479,32 +479,33 @@ class PDFGeneratorV5 {
       }
       
       // === 代理店情報 ===
-      // PDFフォーマットに合わせて配置: 左寄せ、フォントサイズ15以上
+      // PDFフォーマットに合わせて配置: 左寄せ、枠内に収まるサイズ
       // ラベル位置: 販売店名 Y:126.2, 担当者名 Y:119.2
       const agentBaseY = 130; // 実際のY座標（下から上へ）
-      const agentFontSize = fontSize.xlarge; // 15pt
+      const agentFontSize = fontSize.large; // 12pt（枠内に収まるサイズ）
+      const lineHeight = 14; // 行間（12ptフォントに合わせて調整）
       
       // 販売店名（電話番号）- 上段左側ボックス
       if (agentInfo.name) {
-        // 販売店名を1行目に配置
-        const nameLines = this.splitTextIntoLines(agentInfo.name, 220, agentFontSize, font);
+        // 販売店名を1行目に配置（横幅を調整して折り返し）
+        const nameLines = this.splitTextIntoLines(agentInfo.name, 240, agentFontSize, font);
         nameLines.forEach((line, index) => {
           page.drawText(line, {
             x: 130, // 左寄せ開始位置（ラベル「販売店名」の後）
-            y: agentBaseY - (index * 18), // 行間18pt
+            y: agentBaseY - (index * lineHeight),
             size: agentFontSize,
             font: font,
             color: rgb(0, 0, 0)
           });
         });
         
-        // 電話番号を2行目以降に配置
+        // 電話番号を次の行に配置
         if (agentInfo.phone) {
-          const phoneLines = this.splitTextIntoLines(agentInfo.phone, 220, agentFontSize, font);
+          const phoneLines = this.splitTextIntoLines(agentInfo.phone, 240, agentFontSize, font);
           phoneLines.forEach((line, index) => {
             page.drawText(line, {
               x: 130,
-              y: agentBaseY - ((nameLines.length + index) * 18),
+              y: agentBaseY - ((nameLines.length + index) * lineHeight),
               size: agentFontSize,
               font: font,
               color: rgb(0, 0, 0)
@@ -515,11 +516,12 @@ class PDFGeneratorV5 {
       
       // 販売店コード - 上段右側ボックス
       if (agentInfo.code) {
-        const codeLines = this.splitTextIntoLines(agentInfo.code, 180, agentFontSize, font);
+        // 横幅を調整して枠内に収める
+        const codeLines = this.splitTextIntoLines(agentInfo.code, 165, agentFontSize, font);
         codeLines.forEach((line, index) => {
           page.drawText(line, {
             x: 385, // 右側ボックス開始位置
-            y: agentBaseY - (index * 18),
+            y: agentBaseY - (index * lineHeight),
             size: agentFontSize,
             font: font,
             color: rgb(0, 0, 0)
@@ -529,11 +531,12 @@ class PDFGeneratorV5 {
       
       // 担当者名 - 下段右側ボックス
       if (agentInfo.representativeName) {
-        const repLines = this.splitTextIntoLines(agentInfo.representativeName, 180, agentFontSize, font);
+        // 横幅を調整して枠内に収める
+        const repLines = this.splitTextIntoLines(agentInfo.representativeName, 165, agentFontSize, font);
         repLines.forEach((line, index) => {
           page.drawText(line, {
             x: 385, // 右側ボックス開始位置（販売店コードと同じX座標）
-            y: agentBaseY - 35 - (index * 18), // 下段（ラベル「担当者名」Y:119.2に合わせる）
+            y: agentBaseY - 35 - (index * lineHeight), // 下段
             size: agentFontSize,
             font: font,
             color: rgb(0, 0, 0)
