@@ -161,7 +161,8 @@ const ApplicationForm = () => {
     setError('');
 
     try {
-      const response = await axios.post('/api/pdf/generate', formData, {
+      const apiUrl = process.env.REACT_APP_API_URL || '';
+      const response = await axios.post(`${apiUrl}/api/pdf/generate`, formData, {
         responseType: 'blob'
       });
 
