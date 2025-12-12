@@ -479,49 +479,52 @@ class PDFGeneratorV5 {
       }
       
       // === 代理店情報 ===
-      // PDFフォーマットに合わせて配置: 左寄せ（赤いラインに合わせる）
-      // ラベル位置: 販売店名 Y:126.2, 担当者名 Y:119.2
-      const agentBaseY = 130; // 実際のY座標（下から上へ）
-      const agentFontSize = fontSize.large; // 12pt（枠内に収まるサイズ）
-      const lineHeight = 14; // 行間（12ptフォントに合わせて調整）
+      // PDFテンプレート解析による正確な座標
+      // PDF座標系: 原点(0,0)は左下、Yは下から上へ増加
+      const agentFontSize = fontSize.large; // 12pt
+      const lineHeight = 13; // 行間
       
-      // 販売店名（電話番号）- 上段左側ボックス
+      // Box 1: 販売店名（左側・上寄せ）
+      // Rectangle #37: X: 150.2-462.0 (width: 311.8pt), Y from bottom: 172.2-202.0
       if (agentInfo.name) {
-        // 販売店名を1行目に配置（横幅を調整して折り返し）
-        const nameLines = this.splitTextIntoLines(agentInfo.name, 135, agentFontSize, font);
+        const maxWidth = 305; // 311.8pt - padding
+        const nameLines = this.splitTextIntoLines(agentInfo.name, maxWidth, agentFontSize, font);
         nameLines.forEach((line, index) => {
           page.drawText(line, {
-            x: 254, // 左寄せ開始位置（赤いラインに合わせる）
-            y: agentBaseY - (index * lineHeight),
+            x: 153, // Left align with 3pt padding
+            y: 199 - (index * lineHeight), // Top align with 3pt padding
             size: agentFontSize,
             font: font,
             color: rgb(0, 0, 0)
           });
         });
-        
-        // 電話番号を次の行に配置
-        if (agentInfo.phone) {
-          const phoneLines = this.splitTextIntoLines(agentInfo.phone, 135, agentFontSize, font);
-          phoneLines.forEach((line, index) => {
-            page.drawText(line, {
-              x: 254,
-              y: agentBaseY - ((nameLines.length + index) * lineHeight),
-              size: agentFontSize,
-              font: font,
-              color: rgb(0, 0, 0)
-            });
-          });
-        }
       }
       
-      // 販売店コード - 上段右側ボックス
+      // Box 2: 電話番号（左側・Box1の下・上寄せ）
+      // Same X as Box 1, Y from bottom: ~145-172.2
+      if (agentInfo.phone) {
+        const maxWidth = 305;
+        const phoneLines = this.splitTextIntoLines(agentInfo.phone, maxWidth, agentFontSize, font);
+        phoneLines.forEach((line, index) => {
+          page.drawText(line, {
+            x: 153, // Same X as Box 1
+            y: 169 - (index * lineHeight), // Below Box 1, top aligned
+            size: agentFontSize,
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+        });
+      }
+      
+      // Box 3: 販売店コード（右側上段・上寄せ）
+      // Rectangle #36: X: 462.0-552.8 (width: 90.7pt), Y from bottom: 172.2-202.0
       if (agentInfo.code) {
-        // 横幅を調整して枠内に収める
-        const codeLines = this.splitTextIntoLines(agentInfo.code, 145, agentFontSize, font);
+        const maxWidth = 85; // 90.7pt - padding
+        const codeLines = this.splitTextIntoLines(agentInfo.code, maxWidth, agentFontSize, font);
         codeLines.forEach((line, index) => {
           page.drawText(line, {
-            x: 420, // 右側ボックス開始位置（赤いラインに合わせる）
-            y: agentBaseY - (index * lineHeight),
+            x: 465, // Left align with 3pt padding
+            y: 199 - (index * lineHeight), // Top align, same as Box 1
             size: agentFontSize,
             font: font,
             color: rgb(0, 0, 0)
@@ -529,14 +532,15 @@ class PDFGeneratorV5 {
         });
       }
       
-      // 担当者名 - 下段右側ボックス
+      // Box 4: 担当者名（右側下段・上寄せ）
+      // Same X as Box 3, Y from bottom: ~145-172.2
       if (agentInfo.representativeName) {
-        // 横幅を調整して枠内に収める
-        const repLines = this.splitTextIntoLines(agentInfo.representativeName, 145, agentFontSize, font);
+        const maxWidth = 85;
+        const repLines = this.splitTextIntoLines(agentInfo.representativeName, maxWidth, agentFontSize, font);
         repLines.forEach((line, index) => {
           page.drawText(line, {
-            x: 420, // 右側ボックス開始位置（販売店コードと同じX座標）
-            y: agentBaseY - 35 - (index * lineHeight), // 下段
+            x: 465, // Same X as Box 3
+            y: 169 - (index * lineHeight), // Below Box 3, top aligned
             size: agentFontSize,
             font: font,
             color: rgb(0, 0, 0)
