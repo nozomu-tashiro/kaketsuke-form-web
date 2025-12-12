@@ -255,22 +255,43 @@ class PDFGenerator {
     }
 
     if (selectedOptions && selectedOptions.length > 0) {
-      doc.fontSize(9)
-         .text('オプション:', this.margin + 15, yPos);
+      // Using absolute coordinates from Excel specification
+      // Service options positioned at right side boxes
+      const optionNames = {
+        'neighbor-trouble': '① 近隣トラブル解決支援サービス',
+        'senior-watch': '② シニア向り総合見守りサービス', 
+        'appliance-support': '③ 家電の安心修理サポート'
+      };
       
-      selectedOptions.forEach((option, index) => {
-        doc.fontSize(9)
-           .text(`・${this.getOptionName(option)}`, this.margin + 100, yPos);
-        yPos += 15;
+      const optionCoords = {
+        'neighbor-trouble': { x: 376, y: this.pageHeight - 782 }, // Y=782 from bottom
+        'senior-watch': { x: 376, y: this.pageHeight - 762 },     // Y=762 from bottom
+        'appliance-support': { x: 376, y: this.pageHeight - 742 } // Y=742 from bottom
+      };
+      
+      selectedOptions.forEach((option) => {
+        const coords = optionCoords[option];
+        const name = optionNames[option];
+        if (coords && name) {
+          doc.fontSize(12)
+             .font('Helvetica')
+             .text(name, coords.x, coords.y, {
+               align: 'left'
+             });
+        }
       });
       yPos += 5;
     }
 
     if (guaranteeNumber) {
-      doc.fontSize(9)
-         .text('保証番号:', this.margin + 15, yPos);
-      doc.fontSize(10)
-         .text(guaranteeNumber, this.margin + 100, yPos);
+      // Using absolute coordinates from Excel specification
+      // ④保証番号 - X=430, Y=510 (from bottom), Font size=12pt
+      const guaranteeY = this.pageHeight - 510;
+      doc.fontSize(12)
+         .font('Helvetica')
+         .text(guaranteeNumber, 430, guaranteeY, {
+           align: 'left'
+         });
       yPos += 20;
     }
 
@@ -320,33 +341,39 @@ class PDFGenerator {
     }
 
     // Section: 販売店情報
-    yPos += 5;
-    this.drawSectionHeader(doc, yPos, '販売店情報');
-    yPos += 20;
-
-    doc.fontSize(9)
+    // Using absolute coordinates from Excel specification
+    // Box 1: 販売店名 - X=153, Y=140 (from bottom), Max width=120pt
+    const box1Y = this.pageHeight - 140; // Convert from bottom
+    doc.fontSize(10)
        .font('Helvetica')
-       .text('販売店名:', this.margin + 15, yPos);
+       .text(agentInfo.name || '', 153, box1Y, {
+         width: 120,
+         align: 'left'
+       });
+    
+    // Box 2: 電話番号 - X=153, Y=115 (from bottom), Max width=120pt
+    const box2Y = this.pageHeight - 115;
     doc.fontSize(10)
-       .text(agentInfo.name || '', this.margin + 100, yPos);
-    yPos += 18;
-
-    doc.fontSize(9)
-       .text('電話番号:', this.margin + 15, yPos);
+       .text(agentInfo.phone || '', 153, box2Y, {
+         width: 120,
+         align: 'left'
+       });
+    
+    // Box 3: 販売店コード - X=380, Y=140 (from bottom), Max width=110pt
+    const box3Y = this.pageHeight - 140;
     doc.fontSize(10)
-       .text(agentInfo.phone || '', this.margin + 100, yPos);
-    yPos += 18;
-
-    doc.fontSize(9)
-       .text('販売店コード:', this.margin + 15, yPos);
+       .text(agentInfo.code || '', 380, box3Y, {
+         width: 110,
+         align: 'left'
+       });
+    
+    // Box 4: 担当者名 - X=380, Y=115 (from bottom), Max width=110pt
+    const box4Y = this.pageHeight - 115;
     doc.fontSize(10)
-       .text(agentInfo.code || '', this.margin + 100, yPos);
-    yPos += 18;
-
-    doc.fontSize(9)
-       .text('担当者名:', this.margin + 15, yPos);
-    doc.fontSize(10)
-       .text(agentInfo.representativeName || '', this.margin + 100, yPos);
+       .text(agentInfo.representativeName || '', 380, box4Y, {
+         width: 110,
+         align: 'left'
+       });
   }
 
   drawBorder(doc, yPos) {
