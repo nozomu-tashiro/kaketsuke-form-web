@@ -11,13 +11,22 @@ router.post('/generate', async (req, res) => {
   try {
     const formData = req.body;
     
-    // Validate required fields
-    if (!formData.applicationType || !formData.applicantName) {
-      return res.status(400).json({ 
-        error: 'Missing required fields',
-        required: ['applicationType', 'applicantName']
-      });
+    // Validate required fields (minimum requirements)
+    // Set defaults if not provided
+    if (!formData.applicationType) {
+      formData.applicationType = 'new';
     }
+    if (!formData.applicantName) {
+      formData.applicantName = '未入力';
+    }
+    
+    // Log received data for debugging
+    console.log('Received PDF generation request:', {
+      applicationType: formData.applicationType,
+      applicantName: formData.applicantName,
+      selectedProduct: formData.selectedProduct,
+      paymentMethod: formData.paymentMethod
+    });
 
     // Generate PDF using V5 (template-based with Japanese font support)
     const pdfBuffer = await pdfGeneratorV5.generatePDF(formData);
