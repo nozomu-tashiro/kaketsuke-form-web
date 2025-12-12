@@ -182,7 +182,17 @@ class PDFGeneratorV5 {
         });
       }
 
-      // === サービス提供料金と緊急連絡先を印字しない（ユーザー要求） ===
+      // === サービス提供価格（月払の場合のみ印字） ===
+      // 月払を選択したときのみ「サービス提供価格（円/税込）/毎月」に印字
+      if (servicePrice && paymentMethod === 'monthly') {
+        page.drawText(servicePrice, {
+          x: 120,
+          y: 478,
+          size: fontSize.large,
+          font: font,
+          color: rgb(0, 0, 0)
+        });
+      }
       
       // === キャンセル届（解約届/過去日連絡） ===
       // この部分は申込者様が記入するため印字不要
