@@ -120,45 +120,58 @@ const ApplicationForm = () => {
 
   // Validate form
   const validateForm = () => {
-    if (!formData.applicantName) {
-      setError('お申込者様名を入力してください');
+    console.log('=== Form Validation Start ===');
+    console.log('selectedProduct:', formData.selectedProduct);
+    console.log('paymentMethod:', formData.paymentMethod);
+    
+    // 最小限の必須項目のみチェック
+    if (!formData.selectedProduct) {
+      const errorMsg = '商品を選択してください';
+      setError(errorMsg);
+      alert(errorMsg);
+      console.error('Validation failed:', errorMsg);
       return false;
     }
-    if (!formData.applicationDate) {
-      setError('お申込日を入力してください');
-      return false;
-    }
-    if (!formData.propertyAddress) {
-      setError('物件住所を入力してください');
-      return false;
-    }
-    if (!formData.agentInfo.name) {
-      setError('販売店名を入力してください');
+    if (!formData.paymentMethod) {
+      const errorMsg = '支払方法を選択してください';
+      setError(errorMsg);
+      alert(errorMsg);
+      console.error('Validation failed:', errorMsg);
       return false;
     }
     
     // Validate emergency contact if senior-watch option is selected
     if (formData.selectedOptions.includes('senior-watch')) {
       if (!formData.emergencyContact.name) {
-        setError('シニア向けサービスを選択した場合は緊急連絡先が必須です');
+        const errorMsg = 'シニア向けサービスを選択した場合は緊急連絡先が必須です';
+        setError(errorMsg);
+        alert(errorMsg);
+        console.error('Validation failed:', errorMsg);
         return false;
       }
     }
     
+    console.log('=== Validation Passed ===');
     setError('');
     return true;
   };
 
   // Submit form and generate PDF
   const handleSubmit = async (e) => {
+    console.log('=== handleSubmit called ===');
     e.preventDefault();
+    console.log('preventDefault executed');
     
+    console.log('Starting validation...');
     if (!validateForm()) {
+      console.log('Validation failed, stopping submit');
       return;
     }
+    console.log('Validation passed, continuing...');
 
     setLoading(true);
     setError('');
+    console.log('Loading state set to true');
 
     try {
       const apiUrl = process.env.REACT_APP_API_URL || '';
@@ -169,26 +182,43 @@ const ApplicationForm = () => {
       console.log('Form Data:', JSON.stringify(formData, null, 2));
       console.log('===========================');
       
+      console.log('Sending POST request...');
       const response = await axios.post(`${apiUrl}/api/pdf/generate`, formData, {
         responseType: 'blob'
       });
+      console.log('Response received:', response.status, response.statusText);
+      console.log('Response data size:', response.data.size, 'bytes');
 
       // Create download link
+      console.log('Creating download link...');
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `入会申込書_${formData.applicantName}_${new Date().getTime()}.pdf`);
+      link.setAttribute('download', `入会申込書_${formData.applicantName || 'application'}_${new Date().getTime()}.pdf`);
       document.body.appendChild(link);
+      console.log('Triggering download...');
       link.click();
       link.remove();
       window.URL.revokeObjectURL(url);
 
+      console.log('PDF download complete!');
       alert('PDFの生成に成功しました！');
       
     } catch (err) {
-      console.error('Error generating PDF:', err);
-      setError('PDFの生成に失敗しました。もう一度お試しください。');
+      console.error('=== ERROR generating PDF ===');
+      console.error('Error object:', err);
+      console.error('Error message:', err.message);
+      if (err.response) {
+        console.error('Response status:', err.response.status);
+        console.error('Response data:', err.response.data);
+      }
+      console.error('===========================');
+      
+      const errorMsg = `PDFの生成に失敗しました: ${err.message}`;
+      setError(errorMsg);
+      alert(errorMsg);
     } finally {
+      console.log('Setting loading to false');
       setLoading(false);
     }
   };
