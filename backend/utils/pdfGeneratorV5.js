@@ -186,8 +186,8 @@ class PDFGeneratorV5 {
       // 月払を選択したときのみ「サービス提供価格（円/税込）/毎月」に印字
       if (servicePrice && paymentMethod === 'monthly') {
         page.drawText(servicePrice, {
-          x: 150,
-          y: 468,
+          x: 160,
+          y: 465,
           size: 14,
           font: font,
           color: rgb(0, 0, 0)
