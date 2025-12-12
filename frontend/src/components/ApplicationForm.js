@@ -140,16 +140,8 @@ const ApplicationForm = () => {
       return false;
     }
     
-    // Validate emergency contact if senior-watch option is selected
-    if (formData.selectedOptions.includes('senior-watch')) {
-      if (!formData.emergencyContact.name) {
-        const errorMsg = 'シニア向けサービスを選択した場合は緊急連絡先が必須です';
-        setError(errorMsg);
-        alert(errorMsg);
-        console.error('Validation failed:', errorMsg);
-        return false;
-      }
-    }
+    // Emergency contact validation removed per user request
+    // No longer required even when senior-watch option is selected
     
     console.log('=== Validation Passed ===');
     setError('');
