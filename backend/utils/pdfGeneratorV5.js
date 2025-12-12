@@ -122,7 +122,7 @@ class PDFGeneratorV5 {
         const kanaText = this.fitTextInBox(applicantNameKana, 270, fontSize.small, font);
         page.drawText(kanaText, {
           x: 127,
-          y: height - 155,
+          y: height - 195,
           size: fontSize.small,
           font: font,
           color: rgb(0, 0, 0)
@@ -133,7 +133,7 @@ class PDFGeneratorV5 {
       if (homePhone) {
         page.drawText(homePhone, {
           x: 390,
-          y: height - 157,
+          y: height - 190,
           size: fontSize.small,
           font: font,
           color: rgb(0, 0, 0)
@@ -145,7 +145,7 @@ class PDFGeneratorV5 {
         const nameText = this.fitTextInBox(applicantName, 270, fontSize.normal, font);
         page.drawText(nameText, {
           x: 127,
-          y: height - 175,
+          y: height - 220,
           size: fontSize.normal,
           font: font,
           color: rgb(0, 0, 0)
@@ -156,7 +156,7 @@ class PDFGeneratorV5 {
       if (mobilePhone) {
         page.drawText(mobilePhone, {
           x: 390,
-          y: height - 177,
+          y: height - 210,
           size: fontSize.small,
           font: font,
           color: rgb(0, 0, 0)
@@ -168,21 +168,21 @@ class PDFGeneratorV5 {
         const dateParts = this.parseDateString(birthDate);
         page.drawText(dateParts.year, {
           x: 434,
-          y: height - 178,
+          y: height - 272,
           size: fontSize.small,
           font: font,
           color: rgb(0, 0, 0)
         });
         page.drawText(dateParts.month, {
           x: 473,
-          y: height - 178,
+          y: height - 272,
           size: fontSize.small,
           font: font,
           color: rgb(0, 0, 0)
         });
         page.drawText(dateParts.day, {
           x: 504,
-          y: height - 178,
+          y: height - 272,
           size: fontSize.small,
           font: font,
           color: rgb(0, 0, 0)
@@ -194,7 +194,7 @@ class PDFGeneratorV5 {
         const xPos = gender === 'male' ? 535 : 560;
         page.drawText('✓', {
           x: xPos,
-          y: height - 178,
+          y: height - 272,
           size: fontSize.normal,
           font: font,
           color: rgb(0, 0, 0)
