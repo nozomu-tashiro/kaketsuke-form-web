@@ -41,6 +41,22 @@ const ApplicationForm = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  
+  // Accordion state for optional sections
+  const [accordionState, setAccordionState] = useState({
+    basicInfo: false,
+    residents: false,
+    property: false,
+    emergencyContact: false
+  });
+  
+  // Toggle accordion
+  const toggleAccordion = (section) => {
+    setAccordionState(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -390,362 +406,422 @@ const ApplicationForm = () => {
 
         {/* 申込基本情報 */}
         <section className="form-section">
-          <h2 className="section-title">申込基本情報</h2>
+          <div className="accordion-header">
+            <label className="accordion-label">
+              <input
+                type="checkbox"
+                checked={accordionState.basicInfo}
+                onChange={() => toggleAccordion('basicInfo')}
+              />
+              <h2 className="section-title">
+                申込基本情報
+                <span className="warning-text">※入力しても印字できません。</span>
+              </h2>
+            </label>
+          </div>
           
-          <div className="form-row">
-            <label className="form-label">
-              申込種別 <span className="required">*</span>
-            </label>
-            <div className="radio-group">
-              <label className="radio-label">
+          {accordionState.basicInfo && (
+            <div className="accordion-content">
+              <div className="form-row">
+                <label className="form-label">
+                  申込種別
+                </label>
+                <div className="radio-group">
+                  <label className="radio-label">
+                    <input
+                      type="radio"
+                      name="applicationType"
+                      value="new"
+                      checked={formData.applicationType === 'new'}
+                      onChange={handleInputChange}
+                    />
+                    新規
+                  </label>
+                  <label className="radio-label">
+                    <input
+                      type="radio"
+                      name="applicationType"
+                      value="renewal"
+                      checked={formData.applicationType === 'renewal'}
+                      onChange={handleInputChange}
+                    />
+                    更新
+                  </label>
+                </div>
+              </div>
+
+              <div className="form-row">
+                <label className="form-label">
+                  お申込日
+                </label>
                 <input
-                  type="radio"
-                  name="applicationType"
-                  value="new"
-                  checked={formData.applicationType === 'new'}
+                  type="date"
+                  name="applicationDate"
+                  value={formData.applicationDate}
                   onChange={handleInputChange}
+                  className="form-input"
                 />
-                新規
-              </label>
-              <label className="radio-label">
+              </div>
+
+              <div className="form-row">
+                <label className="form-label">
+                  お申込者様名
+                </label>
                 <input
-                  type="radio"
-                  name="applicationType"
-                  value="renewal"
-                  checked={formData.applicationType === 'renewal'}
+                  type="text"
+                  name="applicantName"
+                  value={formData.applicantName}
                   onChange={handleInputChange}
+                  className="form-input"
+                  placeholder="山田 太郎"
                 />
-                更新
-              </label>
+              </div>
+
+              <div className="form-row">
+                <label className="form-label">
+                  フリガナ
+                </label>
+                <input
+                  type="text"
+                  name="applicantNameKana"
+                  value={formData.applicantNameKana}
+                  onChange={handleInputChange}
+                  className="form-input"
+                  placeholder="ヤマダ タロウ"
+                />
+              </div>
+
+              <div className="form-row">
+                <label className="form-label">
+                  携帯番号
+                </label>
+                <input
+                  type="tel"
+                  name="mobilePhone"
+                  value={formData.mobilePhone}
+                  onChange={handleInputChange}
+                  className="form-input"
+                  placeholder="090-1234-5678"
+                />
+              </div>
+
+              <div className="form-row">
+                <label className="form-label">
+                  固定番号
+                </label>
+                <input
+                  type="tel"
+                  name="homePhone"
+                  value={formData.homePhone}
+                  onChange={handleInputChange}
+                  className="form-input"
+                  placeholder="03-1234-5678"
+                />
+              </div>
+
+              <div className="form-row">
+                <label className="form-label">
+                  生年月日
+                </label>
+                <input
+                  type="date"
+                  name="birthDate"
+                  value={formData.birthDate}
+                  onChange={handleInputChange}
+                  className="form-input"
+                />
+              </div>
+
+              <div className="form-row">
+                <label className="form-label">
+                  性別
+                </label>
+                <div className="radio-group">
+                  <label className="radio-label">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="male"
+                      checked={formData.gender === 'male'}
+                      onChange={handleInputChange}
+                    />
+                    男性
+                  </label>
+                  <label className="radio-label">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="female"
+                      checked={formData.gender === 'female'}
+                      onChange={handleInputChange}
+                    />
+                    女性
+                  </label>
+                </div>
+              </div>
             </div>
-          </div>
-
-          <div className="form-row">
-            <label className="form-label">
-              お申込日 <span className="required">*</span>
-            </label>
-            <input
-              type="date"
-              name="applicationDate"
-              value={formData.applicationDate}
-              onChange={handleInputChange}
-              className="form-input"
-              required
-            />
-          </div>
-
-          <div className="form-row">
-            <label className="form-label">
-              お申込者様名 <span className="required">*</span>
-            </label>
-            <input
-              type="text"
-              name="applicantName"
-              value={formData.applicantName}
-              onChange={handleInputChange}
-              className="form-input"
-              placeholder="山田 太郎"
-              required
-            />
-          </div>
-
-          <div className="form-row">
-            <label className="form-label">
-              フリガナ <span className="required">*</span>
-            </label>
-            <input
-              type="text"
-              name="applicantNameKana"
-              value={formData.applicantNameKana}
-              onChange={handleInputChange}
-              className="form-input"
-              placeholder="ヤマダ タロウ"
-              required
-            />
-          </div>
-
-          <div className="form-row">
-            <label className="form-label">
-              携帯番号
-            </label>
-            <input
-              type="tel"
-              name="mobilePhone"
-              value={formData.mobilePhone}
-              onChange={handleInputChange}
-              className="form-input"
-              placeholder="090-1234-5678"
-            />
-          </div>
-
-          <div className="form-row">
-            <label className="form-label">
-              固定番号
-            </label>
-            <input
-              type="tel"
-              name="homePhone"
-              value={formData.homePhone}
-              onChange={handleInputChange}
-              className="form-input"
-              placeholder="03-1234-5678"
-            />
-          </div>
-
-          <div className="form-row">
-            <label className="form-label">
-              生年月日
-            </label>
-            <input
-              type="date"
-              name="birthDate"
-              value={formData.birthDate}
-              onChange={handleInputChange}
-              className="form-input"
-            />
-          </div>
-
-          <div className="form-row">
-            <label className="form-label">
-              性別
-            </label>
-            <div className="radio-group">
-              <label className="radio-label">
-                <input
-                  type="radio"
-                  name="gender"
-                  value="male"
-                  checked={formData.gender === 'male'}
-                  onChange={handleInputChange}
-                />
-                男性
-              </label>
-              <label className="radio-label">
-                <input
-                  type="radio"
-                  name="gender"
-                  value="female"
-                  checked={formData.gender === 'female'}
-                  onChange={handleInputChange}
-                />
-                女性
-              </label>
-            </div>
-          </div>
+          )}
         </section>
 
         {/* 入居者・同居人情報 */}
         <section className="form-section">
-          <h2 className="section-title">入居者・同居人情報</h2>
-          <p className="section-description">
-            お申込者以外の方が入居する場合や、法人契約の場合は必ずご記入ください。
-          </p>
+          <div className="accordion-header">
+            <label className="accordion-label">
+              <input
+                type="checkbox"
+                checked={accordionState.residents}
+                onChange={() => toggleAccordion('residents')}
+              />
+              <h2 className="section-title">
+                入居者・同居人情報
+                <span className="warning-text">※入力しても印字できません。</span>
+              </h2>
+            </label>
+          </div>
           
-          {formData.residents.map((resident, index) => (
-            <div key={index} className="resident-item">
-              <h3 className="resident-title">入居者・同居人 {index + 1}</h3>
+          {accordionState.residents && (
+            <div className="accordion-content">
+              <p className="section-description">
+                お申込者以外の方が入居する場合や、法人契約の場合は必ずご記入ください。
+              </p>
               
-              <div className="form-row">
-                <label className="form-label">お名前</label>
-                <input
-                  type="text"
-                  value={resident.name}
-                  onChange={(e) => updateResident(index, 'name', e.target.value)}
-                  className="form-input"
-                  placeholder="山田 花子"
-                />
-              </div>
+              {formData.residents.map((resident, index) => (
+                <div key={index} className="resident-item">
+                  <h3 className="resident-title">入居者・同居人 {index + 1}</h3>
+                  
+                  <div className="form-row">
+                    <label className="form-label">お名前</label>
+                    <input
+                      type="text"
+                      value={resident.name}
+                      onChange={(e) => updateResident(index, 'name', e.target.value)}
+                      className="form-input"
+                      placeholder="山田 花子"
+                    />
+                  </div>
 
-              <div className="form-row">
-                <label className="form-label">フリガナ</label>
-                <input
-                  type="text"
-                  value={resident.nameKana}
-                  onChange={(e) => updateResident(index, 'nameKana', e.target.value)}
-                  className="form-input"
-                  placeholder="ヤマダ ハナコ"
-                />
-              </div>
+                  <div className="form-row">
+                    <label className="form-label">フリガナ</label>
+                    <input
+                      type="text"
+                      value={resident.nameKana}
+                      onChange={(e) => updateResident(index, 'nameKana', e.target.value)}
+                      className="form-input"
+                      placeholder="ヤマダ ハナコ"
+                    />
+                  </div>
 
-              <div className="form-row">
-                <label className="form-label">続柄</label>
-                <input
-                  type="text"
-                  value={resident.relationship}
-                  onChange={(e) => updateResident(index, 'relationship', e.target.value)}
-                  className="form-input"
-                  placeholder="妻"
-                />
-              </div>
+                  <div className="form-row">
+                    <label className="form-label">続柄</label>
+                    <input
+                      type="text"
+                      value={resident.relationship}
+                      onChange={(e) => updateResident(index, 'relationship', e.target.value)}
+                      className="form-input"
+                      placeholder="妻"
+                    />
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => removeResident(index)}
+                    className="btn-remove"
+                  >
+                    削除
+                  </button>
+                </div>
+              ))}
 
               <button
                 type="button"
-                onClick={() => removeResident(index)}
-                className="btn-remove"
+                onClick={addResident}
+                className="btn-add"
               >
-                削除
+                + 入居者・同居人を追加
               </button>
             </div>
-          ))}
-
-          <button
-            type="button"
-            onClick={addResident}
-            className="btn-add"
-          >
-            + 入居者・同居人を追加
-          </button>
+          )}
         </section>
 
         {/* 対象物件情報 */}
         <section className="form-section">
-          <h2 className="section-title">対象物件情報</h2>
+          <div className="accordion-header">
+            <label className="accordion-label">
+              <input
+                type="checkbox"
+                checked={accordionState.property}
+                onChange={() => toggleAccordion('property')}
+              />
+              <h2 className="section-title">
+                対象物件情報
+                <span className="warning-text">※入力しても印字できません。</span>
+              </h2>
+            </label>
+          </div>
           
-          <div className="form-row">
-            <label className="form-label">
-              住所 <span className="required">*</span>
-            </label>
-            <input
-              type="text"
-              name="propertyAddress"
-              value={formData.propertyAddress}
-              onChange={handleInputChange}
-              className="form-input"
-              placeholder="東京都渋谷区〇〇1-2-3"
-              required
-            />
-          </div>
+          {accordionState.property && (
+            <div className="accordion-content">
+              <div className="form-row">
+                <label className="form-label">
+                  住所
+                </label>
+                <input
+                  type="text"
+                  name="propertyAddress"
+                  value={formData.propertyAddress}
+                  onChange={handleInputChange}
+                  className="form-input"
+                  placeholder="東京都渋谷区〇〇1-2-3"
+                />
+              </div>
 
-          <div className="form-row">
-            <label className="form-label">
-              物件名
-            </label>
-            <input
-              type="text"
-              name="propertyName"
-              value={formData.propertyName}
-              onChange={handleInputChange}
-              className="form-input"
-              placeholder="いえらぶマンション"
-            />
-          </div>
+              <div className="form-row">
+                <label className="form-label">
+                  物件名
+                </label>
+                <input
+                  type="text"
+                  name="propertyName"
+                  value={formData.propertyName}
+                  onChange={handleInputChange}
+                  className="form-input"
+                  placeholder="いえらぶマンション"
+                />
+              </div>
 
-          <div className="form-row">
-            <label className="form-label">
-              物件名フリガナ
-            </label>
-            <input
-              type="text"
-              name="propertyNameKana"
-              value={formData.propertyNameKana}
-              onChange={handleInputChange}
-              className="form-input"
-              placeholder="イエラブマンション"
-            />
-          </div>
+              <div className="form-row">
+                <label className="form-label">
+                  物件名フリガナ
+                </label>
+                <input
+                  type="text"
+                  name="propertyNameKana"
+                  value={formData.propertyNameKana}
+                  onChange={handleInputChange}
+                  className="form-input"
+                  placeholder="イエラブマンション"
+                />
+              </div>
 
-          <div className="form-row">
-            <label className="form-label">
-              号室
-            </label>
-            <input
-              type="text"
-              name="roomNumber"
-              value={formData.roomNumber}
-              onChange={handleInputChange}
-              className="form-input"
-              placeholder="101"
-            />
-          </div>
+              <div className="form-row">
+                <label className="form-label">
+                  号室
+                </label>
+                <input
+                  type="text"
+                  name="roomNumber"
+                  value={formData.roomNumber}
+                  onChange={handleInputChange}
+                  className="form-input"
+                  placeholder="101"
+                />
+              </div>
+            </div>
+          )}
         </section>
 
         {/* 緊急連絡先（シニア向けサービス選択時のみ表示） */}
         {formData.selectedOptions.includes('senior-watch') && (
           <section className="form-section">
-            <h2 className="section-title">緊急連絡先</h2>
-            <p className="section-description">
-              シニア向け総合見守りサービスを選択した場合は必須です。
-            </p>
+            <div className="accordion-header">
+              <label className="accordion-label">
+                <input
+                  type="checkbox"
+                  checked={accordionState.emergencyContact}
+                  onChange={() => toggleAccordion('emergencyContact')}
+                />
+                <h2 className="section-title">
+                  緊急連絡先
+                  <span className="warning-text">※入力しても印字できません。</span>
+                </h2>
+              </label>
+            </div>
             
-            <div className="form-row">
-              <label className="form-label">
-                お名前 <span className="required">*</span>
-              </label>
-              <input
-                type="text"
-                value={formData.emergencyContact.name}
-                onChange={(e) => handleNestedChange('emergencyContact', 'name', e.target.value)}
-                className="form-input"
-                placeholder="田中 一郎"
-                required
-              />
-            </div>
+            {accordionState.emergencyContact && (
+              <div className="accordion-content">
+                <p className="section-description">
+                  シニア向け総合見守りサービスを選択した場合は必須です。
+                </p>
+                
+                <div className="form-row">
+                  <label className="form-label">
+                    お名前
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.emergencyContact.name}
+                    onChange={(e) => handleNestedChange('emergencyContact', 'name', e.target.value)}
+                    className="form-input"
+                    placeholder="田中 一郎"
+                  />
+                </div>
 
-            <div className="form-row">
-              <label className="form-label">
-                フリガナ <span className="required">*</span>
-              </label>
-              <input
-                type="text"
-                value={formData.emergencyContact.nameKana}
-                onChange={(e) => handleNestedChange('emergencyContact', 'nameKana', e.target.value)}
-                className="form-input"
-                placeholder="タナカ イチロウ"
-                required
-              />
-            </div>
+                <div className="form-row">
+                  <label className="form-label">
+                    フリガナ
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.emergencyContact.nameKana}
+                    onChange={(e) => handleNestedChange('emergencyContact', 'nameKana', e.target.value)}
+                    className="form-input"
+                    placeholder="タナカ イチロウ"
+                  />
+                </div>
 
-            <div className="form-row">
-              <label className="form-label">
-                住所
-              </label>
-              <input
-                type="text"
-                value={formData.emergencyContact.address}
-                onChange={(e) => handleNestedChange('emergencyContact', 'address', e.target.value)}
-                className="form-input"
-                placeholder="東京都港区〇〇1-2-3"
-              />
-            </div>
+                <div className="form-row">
+                  <label className="form-label">
+                    住所
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.emergencyContact.address}
+                    onChange={(e) => handleNestedChange('emergencyContact', 'address', e.target.value)}
+                    className="form-input"
+                    placeholder="東京都港区〇〇1-2-3"
+                  />
+                </div>
 
-            <div className="form-row">
-              <label className="form-label">
-                固定電話
-              </label>
-              <input
-                type="tel"
-                value={formData.emergencyContact.homePhone}
-                onChange={(e) => handleNestedChange('emergencyContact', 'homePhone', e.target.value)}
-                className="form-input"
-                placeholder="03-1234-5678"
-              />
-            </div>
+                <div className="form-row">
+                  <label className="form-label">
+                    固定電話
+                  </label>
+                  <input
+                    type="tel"
+                    value={formData.emergencyContact.homePhone}
+                    onChange={(e) => handleNestedChange('emergencyContact', 'homePhone', e.target.value)}
+                    className="form-input"
+                    placeholder="03-1234-5678"
+                  />
+                </div>
 
-            <div className="form-row">
-              <label className="form-label">
-                携帯電話
-              </label>
-              <input
-                type="tel"
-                value={formData.emergencyContact.mobilePhone}
-                onChange={(e) => handleNestedChange('emergencyContact', 'mobilePhone', e.target.value)}
-                className="form-input"
-                placeholder="090-1234-5678"
-              />
-            </div>
+                <div className="form-row">
+                  <label className="form-label">
+                    携帯電話
+                  </label>
+                  <input
+                    type="tel"
+                    value={formData.emergencyContact.mobilePhone}
+                    onChange={(e) => handleNestedChange('emergencyContact', 'mobilePhone', e.target.value)}
+                    className="form-input"
+                    placeholder="090-1234-5678"
+                  />
+                </div>
 
-            <div className="form-row">
-              <label className="form-label">
-                続柄
-              </label>
-              <input
-                type="text"
-                value={formData.emergencyContact.relationship}
-                onChange={(e) => handleNestedChange('emergencyContact', 'relationship', e.target.value)}
-                className="form-input"
-                placeholder="息子"
-              />
-            </div>
+                <div className="form-row">
+                  <label className="form-label">
+                    続柄
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.emergencyContact.relationship}
+                    onChange={(e) => handleNestedChange('emergencyContact', 'relationship', e.target.value)}
+                    className="form-input"
+                    placeholder="息子"
+                  />
+                </div>
+              </div>
+            )}
           </section>
         )}
 
