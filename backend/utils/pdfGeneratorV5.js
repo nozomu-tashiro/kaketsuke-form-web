@@ -171,11 +171,11 @@ class PDFGeneratorV5 {
       }
       
       // === 保証番号 ===
-      // 「サービス提供料金」の右側の赤塗り部分に印字
+      // サービス期間の行の右側に印字
       if (guaranteeNumber) {
         page.drawText(guaranteeNumber, {
           x: 430,
-          y: 370,
+          y: 470,
           size: fontSize.large,
           font: font,
           color: rgb(0, 0, 0)
