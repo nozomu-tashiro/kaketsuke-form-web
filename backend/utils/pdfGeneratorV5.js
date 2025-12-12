@@ -327,12 +327,53 @@ class PDFGeneratorV5 {
         });
       }
 
+      // === オプションサービスのチェックマーク ===
+      // 右上の緑の枠内にチェックマークを印字
+      // 対象商品: あんしんサポート24, ホームアシスト24, あんしんフルサポート
+      // ※いえらぶ安心サポートは除外
+      const excludedProduct = 'ierabu-anshin-support';
+      if (selectedProduct !== excludedProduct) {
+        // ①近隣トラブル解決支援サービス
+        if (selectedOptions.includes('trouble-resolution')) {
+          page.drawText('✓', {
+            x: 543,
+            y: 799,
+            size: fontSize.large,
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+        }
+        
+        // ②シニア向け総合見守りサービス
+        if (selectedOptions.includes('senior-watch')) {
+          page.drawText('✓', {
+            x: 543,
+            y: 790,
+            size: fontSize.large,
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+        }
+        
+        // ③家電の安心修理サポート Syu-ri!
+        if (selectedOptions.includes('appliance-support')) {
+          page.drawText('✓', {
+            x: 543,
+            y: 769,
+            size: fontSize.large,
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+        }
+      }
+      
       // === 保証番号 ===
+      // 「いえらぶ安心保証（家賃保証）契約者保証番号（④）」の括弧内に印字
       if (guaranteeNumber) {
         page.drawText(guaranteeNumber, {
-          x: 360,
-          y: serviceY - 13,
-          size: fontSize.small,
+          x: 590,
+          y: serviceY + 2,
+          size: fontSize.large,
           font: font,
           color: rgb(0, 0, 0)
         });
