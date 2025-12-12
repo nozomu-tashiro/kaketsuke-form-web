@@ -175,7 +175,7 @@ class PDFGeneratorV5 {
       if (guaranteeNumber) {
         page.drawText(guaranteeNumber, {
           x: 430,
-          y: 230,
+          y: 370,
           size: fontSize.large,
           font: font,
           color: rgb(0, 0, 0)
