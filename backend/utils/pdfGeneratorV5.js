@@ -276,9 +276,9 @@ class PDFGeneratorV5 {
       }
       
       // Box 3: 販売店コード
-      // X座標: 380, Y座標(下から): 140, 最大幅: 110pt, 配置: 左寄せ・上寄せ
+      // X座標: 380, Y座標(下から): 140, 最大幅: 120pt, 配置: 左寄せ・上寄せ
       if (agentInfo.code) {
-        const maxWidth = 110;
+        const maxWidth = 120;
         const codeLines = this.splitTextIntoLines(agentInfo.code, maxWidth, agentFontSize, font);
         codeLines.forEach((line, index) => {
           page.drawText(line, {
@@ -292,9 +292,9 @@ class PDFGeneratorV5 {
       }
       
       // Box 4: 担当者名
-      // X座標: 380, Y座標(下から): 115, 最大幅: 110pt, 配置: 左寄せ・上寄せ
+      // X座標: 380, Y座標(下から): 115, 最大幅: 120pt, 配置: 左寄せ・上寄せ
       if (agentInfo.representativeName) {
-        const maxWidth = 110;
+        const maxWidth = 120;
         const repLines = this.splitTextIntoLines(agentInfo.representativeName, maxWidth, agentFontSize, font);
         repLines.forEach((line, index) => {
           page.drawText(line, {
