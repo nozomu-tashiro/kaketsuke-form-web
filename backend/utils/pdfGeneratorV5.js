@@ -171,11 +171,11 @@ class PDFGeneratorV5 {
       }
       
       // === 保証番号 ===
-      // 「いえらぶ安心保証（家賃保証）契約者保証番号（④）」の括弧内に印字
+      // 「サービス提供料金」の右側の赤塗り部分に印字
       if (guaranteeNumber) {
         page.drawText(guaranteeNumber, {
           x: 430,
-          y: 550,
+          y: 230,
           size: fontSize.large,
           font: font,
           color: rgb(0, 0, 0)
