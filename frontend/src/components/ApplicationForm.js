@@ -268,7 +268,10 @@ const ApplicationForm = () => {
 
           <div className="form-row">
             <label className="form-label">
-              サービス提供価格（円）
+              {formData.paymentMethod === 'monthly' 
+                ? 'サービス提供価格（円/税込）/毎月'
+                : '【更新時】運営会社（いえらぶ）にて更新案内する場合：更新時ご請求額（円/※税別）'
+              }
             </label>
             <input
               type="number"
