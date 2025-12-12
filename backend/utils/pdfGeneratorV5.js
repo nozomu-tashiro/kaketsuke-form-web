@@ -336,8 +336,8 @@ class PDFGeneratorV5 {
         // ①近隣トラブル解決支援サービス
         if (selectedOptions.includes('trouble-resolution')) {
           page.drawText('✓', {
-            x: 377,
-            y: 785,
+            x: 376,
+            y: 782,
             size: fontSize.large,
             font: font,
             color: rgb(0, 0, 0)
@@ -347,8 +347,8 @@ class PDFGeneratorV5 {
         // ②シニア向け総合見守りサービス
         if (selectedOptions.includes('senior-watch')) {
           page.drawText('✓', {
-            x: 377,
-            y: 778,
+            x: 376,
+            y: 762,
             size: fontSize.large,
             font: font,
             color: rgb(0, 0, 0)
@@ -358,8 +358,8 @@ class PDFGeneratorV5 {
         // ③家電の安心修理サポート Syu-ri!
         if (selectedOptions.includes('appliance-support')) {
           page.drawText('✓', {
-            x: 377,
-            y: 767,
+            x: 376,
+            y: 742,
             size: fontSize.large,
             font: font,
             color: rgb(0, 0, 0)
@@ -371,8 +371,8 @@ class PDFGeneratorV5 {
       // 「いえらぶ安心保証（家賃保証）契約者保証番号（④）」の括弧内に印字
       if (guaranteeNumber) {
         page.drawText(guaranteeNumber, {
-          x: 415,
-          y: serviceY + 2,
+          x: 440,
+          y: 400,
           size: fontSize.large,
           font: font,
           color: rgb(0, 0, 0)
