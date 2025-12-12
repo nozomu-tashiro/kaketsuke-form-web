@@ -200,6 +200,191 @@ const ApplicationForm = () => {
           </div>
         )}
 
+        {/* 商品・サービス選択 */}
+        <section className="form-section">
+          <h2 className="section-title">商品・サービス選択</h2>
+          
+          <div className="form-row">
+            <label className="form-label">
+              商品ラインナップ <span className="required">*</span>
+            </label>
+            <select
+              name="selectedProduct"
+              value={formData.selectedProduct}
+              onChange={(e) => {
+                handleInputChange(e);
+                // Reset payment method when product changes
+                const availableMethods = getAvailablePaymentMethods();
+                if (availableMethods.length > 0) {
+                  setFormData(prev => ({
+                    ...prev,
+                    selectedProduct: e.target.value,
+                    paymentMethod: availableMethods[0].value
+                  }));
+                }
+              }}
+              className="form-select"
+              required
+            >
+              <option value="anshin-support-24">① あんしんサポート２４</option>
+              <option value="home-assist-24">② ホームアシスト２４</option>
+              <option value="anshin-full-support">③ あんしんフルサポート</option>
+              <option value="ierabu-anshin-support">④ いえらぶ安心サポート</option>
+            </select>
+          </div>
+
+          <div className="form-row">
+            <label className="form-label">
+              支払方法 <span className="required">*</span>
+            </label>
+            <div className="payment-method-group">
+              {getAvailablePaymentMethods().map(method => (
+                <label 
+                  key={method.value} 
+                  className={`payment-method-label ${method.warning ? 'warning-option' : ''}`}
+                  title={method.warning ? '※１年更新プランは基本的に取り扱っておりません' : ''}
+                >
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value={method.value}
+                    checked={formData.paymentMethod === method.value}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <span>{method.label}</span>
+                  {method.warning && (
+                    <span className="warning-badge">⚠️</span>
+                  )}
+                </label>
+              ))}
+            </div>
+            {formData.paymentMethod === 'yearly-1' && (
+              <div className="warning-message">
+                ⚠️ ※１年更新プランは基本的に取り扱っておりません。（営業担当にお問い合わせください）
+              </div>
+            )}
+          </div>
+
+          <div className="form-row">
+            <label className="form-label">
+              サービス提供価格（円）
+            </label>
+            <input
+              type="number"
+              name="servicePrice"
+              value={formData.servicePrice}
+              onChange={handleInputChange}
+              className="form-input"
+              placeholder="15000"
+            />
+          </div>
+
+          <div className="form-row">
+            <label className="form-label">
+              オプションサービス
+            </label>
+            <div className="checkbox-group">
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={formData.selectedOptions.includes('neighbor-trouble')}
+                  onChange={() => handleOptionChange('neighbor-trouble')}
+                />
+                近隣トラブル解決支援サービス（マモロッカ）
+              </label>
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={formData.selectedOptions.includes('senior-watch')}
+                  onChange={() => handleOptionChange('senior-watch')}
+                />
+                シニア向け総合見守りサービス（まごころ）
+              </label>
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={formData.selectedOptions.includes('appliance-support')}
+                  onChange={() => handleOptionChange('appliance-support')}
+                />
+                家電の安心サポート（Syu-rIt！シューリット！）
+              </label>
+            </div>
+          </div>
+
+          <div className="form-row">
+            <label className="form-label">
+              保証番号（いえらぶ安心保証契約者の場合）
+            </label>
+            <input
+              type="text"
+              name="guaranteeNumber"
+              value={formData.guaranteeNumber}
+              onChange={handleInputChange}
+              className="form-input"
+              placeholder="00000268"
+            />
+          </div>
+        </section>
+
+        {/* 販売店情報 */}
+        <section className="form-section">
+          <h2 className="section-title">販売店情報</h2>
+          
+          <div className="form-row">
+            <label className="form-label">
+              販売店名 <span className="required">*</span>
+            </label>
+            <input
+              type="text"
+              value={formData.agentInfo.name}
+              onChange={(e) => handleNestedChange('agentInfo', 'name', e.target.value)}
+              className="form-input"
+              placeholder="いえらぶ不動産販売株式会社"
+              required
+            />
+          </div>
+
+          <div className="form-row">
+            <label className="form-label">
+              電話番号
+            </label>
+            <input
+              type="tel"
+              value={formData.agentInfo.phone}
+              onChange={(e) => handleNestedChange('agentInfo', 'phone', e.target.value)}
+              className="form-input"
+              placeholder="03-1234-5678"
+            />
+          </div>
+
+          <div className="form-row">
+            <label className="form-label">
+              販売店コード
+            </label>
+            <input
+              type="text"
+              value={formData.agentInfo.code}
+              onChange={(e) => handleNestedChange('agentInfo', 'code', e.target.value)}
+              className="form-input"
+              placeholder="13-00-11223366-000"
+            />
+          </div>
+
+          <div className="form-row">
+            <label className="form-label">
+              担当者名
+            </label>
+            <input
+              type="text"
+              value={formData.agentInfo.representativeName}
+              onChange={(e) => handleNestedChange('agentInfo', 'representativeName', e.target.value)}
+              className="form-input"
+              placeholder="いえらぶ太郎"
+            />
+          </div>
+        </section>
+
         {/* 申込基本情報 */}
         <section className="form-section">
           <h2 className="section-title">申込基本情報</h2>
@@ -471,133 +656,6 @@ const ApplicationForm = () => {
           </div>
         </section>
 
-        {/* 商品・サービス選択 */}
-        <section className="form-section">
-          <h2 className="section-title">商品・サービス選択</h2>
-          
-          <div className="form-row">
-            <label className="form-label">
-              商品ラインナップ <span className="required">*</span>
-            </label>
-            <select
-              name="selectedProduct"
-              value={formData.selectedProduct}
-              onChange={(e) => {
-                handleInputChange(e);
-                // Reset payment method when product changes
-                const availableMethods = getAvailablePaymentMethods();
-                if (availableMethods.length > 0) {
-                  setFormData(prev => ({
-                    ...prev,
-                    selectedProduct: e.target.value,
-                    paymentMethod: availableMethods[0].value
-                  }));
-                }
-              }}
-              className="form-select"
-              required
-            >
-              <option value="anshin-support-24">① あんしんサポート２４</option>
-              <option value="home-assist-24">② ホームアシスト２４</option>
-              <option value="anshin-full-support">③ あんしんフルサポート</option>
-              <option value="ierabu-anshin-support">④ いえらぶ安心サポート</option>
-            </select>
-          </div>
-
-          <div className="form-row">
-            <label className="form-label">
-              支払方法 <span className="required">*</span>
-            </label>
-            <div className="payment-method-group">
-              {getAvailablePaymentMethods().map(method => (
-                <label 
-                  key={method.value} 
-                  className={`payment-method-label ${method.warning ? 'warning-option' : ''}`}
-                  title={method.warning ? '※１年更新プランは基本的に取り扱っておりません' : ''}
-                >
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value={method.value}
-                    checked={formData.paymentMethod === method.value}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <span>{method.label}</span>
-                  {method.warning && (
-                    <span className="warning-badge">⚠️</span>
-                  )}
-                </label>
-              ))}
-            </div>
-            {formData.paymentMethod === 'yearly-1' && (
-              <div className="warning-message">
-                ⚠️ ※１年更新プランは基本的に取り扱っておりません。（営業担当にお問い合わせください）
-              </div>
-            )}
-          </div>
-
-          <div className="form-row">
-            <label className="form-label">
-              サービス提供価格（円）
-            </label>
-            <input
-              type="number"
-              name="servicePrice"
-              value={formData.servicePrice}
-              onChange={handleInputChange}
-              className="form-input"
-              placeholder="15000"
-            />
-          </div>
-
-          <div className="form-row">
-            <label className="form-label">
-              オプションサービス
-            </label>
-            <div className="checkbox-group">
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={formData.selectedOptions.includes('neighbor-trouble')}
-                  onChange={() => handleOptionChange('neighbor-trouble')}
-                />
-                近隣トラブル解決支援サービス（マモロッカ）
-              </label>
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={formData.selectedOptions.includes('senior-watch')}
-                  onChange={() => handleOptionChange('senior-watch')}
-                />
-                シニア向け総合見守りサービス（まごころ）
-              </label>
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={formData.selectedOptions.includes('appliance-support')}
-                  onChange={() => handleOptionChange('appliance-support')}
-                />
-                家電の安心サポート（Syu-rIt！シューリット！）
-              </label>
-            </div>
-          </div>
-
-          <div className="form-row">
-            <label className="form-label">
-              保証番号（いえらぶ安心保証契約者の場合）
-            </label>
-            <input
-              type="text"
-              name="guaranteeNumber"
-              value={formData.guaranteeNumber}
-              onChange={handleInputChange}
-              className="form-input"
-              placeholder="00000268"
-            />
-          </div>
-        </section>
-
         {/* 緊急連絡先（シニア向けサービス選択時のみ表示） */}
         {formData.selectedOptions.includes('senior-watch') && (
           <section className="form-section">
@@ -687,64 +745,6 @@ const ApplicationForm = () => {
             </div>
           </section>
         )}
-
-        {/* 販売店情報 */}
-        <section className="form-section">
-          <h2 className="section-title">販売店情報</h2>
-          
-          <div className="form-row">
-            <label className="form-label">
-              販売店名 <span className="required">*</span>
-            </label>
-            <input
-              type="text"
-              value={formData.agentInfo.name}
-              onChange={(e) => handleNestedChange('agentInfo', 'name', e.target.value)}
-              className="form-input"
-              placeholder="いえらぶ不動産販売株式会社"
-              required
-            />
-          </div>
-
-          <div className="form-row">
-            <label className="form-label">
-              電話番号
-            </label>
-            <input
-              type="tel"
-              value={formData.agentInfo.phone}
-              onChange={(e) => handleNestedChange('agentInfo', 'phone', e.target.value)}
-              className="form-input"
-              placeholder="03-1234-5678"
-            />
-          </div>
-
-          <div className="form-row">
-            <label className="form-label">
-              販売店コード
-            </label>
-            <input
-              type="text"
-              value={formData.agentInfo.code}
-              onChange={(e) => handleNestedChange('agentInfo', 'code', e.target.value)}
-              className="form-input"
-              placeholder="13-00-11223366-000"
-            />
-          </div>
-
-          <div className="form-row">
-            <label className="form-label">
-              担当者名
-            </label>
-            <input
-              type="text"
-              value={formData.agentInfo.representativeName}
-              onChange={(e) => handleNestedChange('agentInfo', 'representativeName', e.target.value)}
-              className="form-input"
-              placeholder="いえらぶ太郎"
-            />
-          </div>
-        </section>
 
         {/* Submit button */}
         <div className="form-actions">
