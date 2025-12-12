@@ -277,7 +277,7 @@ const ApplicationForm = () => {
             </div>
             {formData.paymentMethod === 'yearly-1' && (
               <div className="warning-message">
-                ⚠️ ※１年更新プランは基本的に取り扱っておりません。（営業担当にお問い合わせください）
+                ⚠️ ※1年更新プランは設定可能ですが、個別対応となります。プラン内容の確認・ご相談が必要なため、営業担当とのお打ち合わせ後、専用の申込書でのお申込みとなり、本画面からの印刷はできません。
               </div>
             )}
           </div>
