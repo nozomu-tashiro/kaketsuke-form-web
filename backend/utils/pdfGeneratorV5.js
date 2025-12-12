@@ -104,6 +104,7 @@ class PDFGeneratorV5 {
 
     // フォント設定（赤枠内に最適なサイズで収まるよう調整）
     const fontSize = {
+      xlarge: 15,
       large: 12,
       medium: 10,
       normal: 9,
@@ -478,39 +479,65 @@ class PDFGeneratorV5 {
       }
       
       // === 代理店情報 ===
-      const agentY = height - 695;
+      // PDFフォーマットに合わせて配置: 左寄せ、フォントサイズ15以上
+      // ラベル位置: 販売店名 Y:126.2, 担当者名 Y:119.2
+      const agentBaseY = 130; // 実際のY座標（下から上へ）
+      const agentFontSize = fontSize.xlarge; // 15pt
       
-      // 販売店名
+      // 販売店名（電話番号）- 上段左側ボックス
       if (agentInfo.name) {
-        const agentName = this.fitTextInBox(agentInfo.name, 210, fontSize.small, font);
-        page.drawText(agentName, {
-          x: 135,
-          y: agentY,
-          size: fontSize.small,
-          font: font,
-          color: rgb(0, 0, 0)
+        // 販売店名を1行目に配置
+        const nameLines = this.splitTextIntoLines(agentInfo.name, 220, agentFontSize, font);
+        nameLines.forEach((line, index) => {
+          page.drawText(line, {
+            x: 130, // 左寄せ開始位置（ラベル「販売店名」の後）
+            y: agentBaseY - (index * 18), // 行間18pt
+            size: agentFontSize,
+            font: font,
+            color: rgb(0, 0, 0)
+          });
         });
+        
+        // 電話番号を2行目以降に配置
+        if (agentInfo.phone) {
+          const phoneLines = this.splitTextIntoLines(agentInfo.phone, 220, agentFontSize, font);
+          phoneLines.forEach((line, index) => {
+            page.drawText(line, {
+              x: 130,
+              y: agentBaseY - ((nameLines.length + index) * 18),
+              size: agentFontSize,
+              font: font,
+              color: rgb(0, 0, 0)
+            });
+          });
+        }
       }
       
-      // 販売店コード
+      // 販売店コード - 上段右側ボックス
       if (agentInfo.code) {
-        page.drawText(agentInfo.code, {
-          x: 395,
-          y: agentY,
-          size: fontSize.small,
-          font: font,
-          color: rgb(0, 0, 0)
+        const codeLines = this.splitTextIntoLines(agentInfo.code, 180, agentFontSize, font);
+        codeLines.forEach((line, index) => {
+          page.drawText(line, {
+            x: 385, // 右側ボックス開始位置
+            y: agentBaseY - (index * 18),
+            size: agentFontSize,
+            font: font,
+            color: rgb(0, 0, 0)
+          });
         });
       }
       
-      // 担当者名
-      if (agentInfo.representative) {
-        page.drawText(agentInfo.representative, {
-          x: 395,
-          y: agentY - 19,
-          size: fontSize.small,
-          font: font,
-          color: rgb(0, 0, 0)
+      // 担当者名 - 下段右側ボックス
+      if (agentInfo.representativeName) {
+        const repLines = this.splitTextIntoLines(agentInfo.representativeName, 180, agentFontSize, font);
+        repLines.forEach((line, index) => {
+          page.drawText(line, {
+            x: 385, // 右側ボックス開始位置（販売店コードと同じX座標）
+            y: agentBaseY - 35 - (index * 18), // 下段（ラベル「担当者名」Y:119.2に合わせる）
+            size: agentFontSize,
+            font: font,
+            color: rgb(0, 0, 0)
+          });
         });
       }
 
