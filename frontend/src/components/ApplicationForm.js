@@ -295,7 +295,7 @@ const ApplicationForm = () => {
               value={formData.servicePrice}
               onChange={handleInputChange}
               className="form-input"
-              placeholder="15000"
+              placeholder={formData.paymentMethod === 'monthly' ? '1100' : '15000'}
             />
           </div>
 
