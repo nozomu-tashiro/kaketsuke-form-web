@@ -162,6 +162,13 @@ const ApplicationForm = () => {
 
     try {
       const apiUrl = process.env.REACT_APP_API_URL || '';
+      console.log('=== PDF Generation Debug ===');
+      console.log('process.env.REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
+      console.log('API URL (final):', apiUrl);
+      console.log('Full URL:', `${apiUrl}/api/pdf/generate`);
+      console.log('Form Data:', JSON.stringify(formData, null, 2));
+      console.log('===========================');
+      
       const response = await axios.post(`${apiUrl}/api/pdf/generate`, formData, {
         responseType: 'blob'
       });
