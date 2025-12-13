@@ -200,8 +200,8 @@ class PDFGeneratorV5 {
       const isYearly = paymentMethod && paymentMethod.startsWith('yearly');
       if (servicePrice && isYearly) {
         page.drawText(servicePrice, {
-          x: 400,
-          y: 85,
+          x: 430,
+          y: 83,
           size: 14,
           font: font,
           color: rgb(0, 0, 0)
