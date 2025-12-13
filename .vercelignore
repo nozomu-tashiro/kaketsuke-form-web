@@ -1,0 +1,8 @@
+backend/
+node_modules/
+*.log
+.env.local
+.DS_Store
+test*.pdf
+excel_images_new/
+*.py
