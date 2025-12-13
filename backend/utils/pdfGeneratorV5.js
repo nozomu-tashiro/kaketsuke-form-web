@@ -194,6 +194,20 @@ class PDFGeneratorV5 {
         });
       }
       
+      // === 更新時ご請求額（年払の場合のみ印字） ===
+      // 年払（yearly-1 または yearly-2）を選択したときのみ印字
+      // 【更新時】運営会社（いえらぶ）にて更新案内する場合：更新時ご請求額
+      const isYearly = paymentMethod && paymentMethod.startsWith('yearly');
+      if (servicePrice && isYearly) {
+        page.drawText(servicePrice, {
+          x: 400,
+          y: 85,
+          size: 14,
+          font: font,
+          color: rgb(0, 0, 0)
+        });
+      }
+      
       // === キャンセル届（解約届/過去日連絡） ===
       // この部分は申込者様が記入するため印字不要
       
