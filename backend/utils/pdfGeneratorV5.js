@@ -172,7 +172,7 @@ class PDFGeneratorV5 {
       
       // === 保証番号 ===
       // 商品と支払方法によって座標が異なる
-      // いえらぶ安心サポート: X=430, Y=448（サービス期間の行の右側）
+      // いえらぶ安心サポート: X=430, Y=443（サービス期間の行の右側）
       // 月払（その他）: X=430, Y=448
       // 年払（その他）: X=445, Y=485
       if (guaranteeNumber) {
@@ -183,7 +183,7 @@ class PDFGeneratorV5 {
         if (isIerabuProduct) {
           // いえらぶ安心サポート選択時は固定
           guaranteeX = 430;
-          guaranteeY = 448;
+          guaranteeY = 443;
         } else {
           // その他の商品は支払方法で変わる
           guaranteeX = isYearlyPayment ? 445 : 430;
@@ -289,10 +289,10 @@ class PDFGeneratorV5 {
       
       // いえらぶ安心サポート選択時は座標が異なる
       const isIerabuAnshinSupport = selectedProduct === 'ierabu-anshin-support';
-      const box1Y = isIerabuAnshinSupport ? 102 : 140;
-      const box2Y = isIerabuAnshinSupport ? 77 : 115;
-      const box3Y = isIerabuAnshinSupport ? 102 : 140;
-      const box4Y = isIerabuAnshinSupport ? 77 : 115;
+      const box1Y = isIerabuAnshinSupport ? 112 : 140;
+      const box2Y = isIerabuAnshinSupport ? 87 : 115;
+      const box3Y = isIerabuAnshinSupport ? 112 : 140;
+      const box4Y = isIerabuAnshinSupport ? 87 : 115;
       
       // Box 1: 販売店名
       // 通常: X=153, Y=140 / いえらぶ安心サポート: X=153, Y=102
