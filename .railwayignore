@@ -1,0 +1,14 @@
+frontend/
+node_modules/
+*.md
+.git/
+.gitignore
+docs/
+data/
+excel_images/
+excel_images_new/
+*.pdf
+*.py
+*.log
+*.png
+test_*.js
