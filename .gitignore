@@ -39,3 +39,24 @@ coverage/
 *.tmp
 *.temp
 .cache/
+
+# Test files and development artifacts
+test_*.pdf
+test_*.png
+test_*.js
+*.log
+*_restart.log
+*_new.log
+coordinate_instruction.png
+AGENT_INFO_CORRECT_PLACEMENT.md
+adjust_checkbox_coords.py
+analyze_boxes.py
+extract_agent_boxes.py
+find_agent_labels.py
+find_checkboxes.py
+find_guarantee_position.py
+locate_guarantee_field.py
+check_env.html
+excel_images_new/
+backend/templates/*.png
+backend/test_*.pdf
