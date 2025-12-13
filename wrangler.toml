@@ -1,5 +1,5 @@
 # Cloudflare Pages Configuration
-name = "kaketsuke-form-web"
+name = "kaketsuke-form-app"
 compatibility_date = "2024-12-13"
 
 [site]
@@ -7,9 +7,5 @@ bucket = "./frontend/build"
 
 [build]
 command = "cd frontend && npm install && npm run build"
-cwd = "frontend"
+cwd = "./"
 watch_dir = "frontend"
-
-[build.upload]
-format = "service-worker"
-main = "./frontend/build"
