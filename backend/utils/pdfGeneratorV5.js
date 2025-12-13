@@ -171,11 +171,17 @@ class PDFGeneratorV5 {
       }
       
       // === 保証番号 ===
-      // サービス期間の行の右側に印字
+      // 支払方法によって座標が異なる
+      // 月払: X=430, Y=448
+      // 年払: X=445, Y=493
       if (guaranteeNumber) {
+        const isYearlyPayment = paymentMethod && paymentMethod.startsWith('yearly');
+        const guaranteeX = isYearlyPayment ? 445 : 430;
+        const guaranteeY = isYearlyPayment ? 493 : 448;
+        
         page.drawText(guaranteeNumber, {
-          x: 430,
-          y: 448,
+          x: guaranteeX,
+          y: guaranteeY,
           size: fontSize.large,
           font: font,
           color: rgb(0, 0, 0)
