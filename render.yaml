@@ -1,4 +1,4 @@
-# Render.com Configuration for Backend
+# Render.com Configuration for Backend Only
 services:
   - type: web
     name: kaketsuke-form-backend
@@ -6,8 +6,8 @@ services:
     region: singapore  # 日本から最速
     plan: free
     rootDir: backend
-    buildCommand: npm install
-    startCommand: node server.js
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && node server.js
     envVars:
       - key: NODE_ENV
         value: production
@@ -16,3 +16,4 @@ services:
       - key: CORS_ORIGIN
         value: "*"
     healthCheckPath: /api/health
+    # フロントエンドは別途Vercelでデプロイ
