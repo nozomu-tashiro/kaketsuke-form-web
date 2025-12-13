@@ -1,0 +1,9 @@
+{
+  "$schema": "https://developers.cloudflare.com/pages/configuration/schema",
+  "version": 1,
+  "build": {
+    "command": "cd frontend && npm install && npm run build",
+    "output_directory": "frontend/build",
+    "root_directory": "/"
+  }
+}
