@@ -171,13 +171,24 @@ class PDFGeneratorV5 {
       }
       
       // === 保証番号 ===
-      // 支払方法によって座標が異なる
-      // 月払: X=430, Y=448
-      // 年払: X=445, Y=485
+      // 商品と支払方法によって座標が異なる
+      // いえらぶ安心サポート: X=430, Y=448（サービス期間の行の右側）
+      // 月払（その他）: X=430, Y=448
+      // 年払（その他）: X=445, Y=485
       if (guaranteeNumber) {
+        const isIerabuProduct = selectedProduct === 'ierabu-anshin-support';
         const isYearlyPayment = paymentMethod && paymentMethod.startsWith('yearly');
-        const guaranteeX = isYearlyPayment ? 445 : 430;
-        const guaranteeY = isYearlyPayment ? 485 : 448;
+        
+        let guaranteeX, guaranteeY;
+        if (isIerabuProduct) {
+          // いえらぶ安心サポート選択時は固定
+          guaranteeX = 430;
+          guaranteeY = 448;
+        } else {
+          // その他の商品は支払方法で変わる
+          guaranteeX = isYearlyPayment ? 445 : 430;
+          guaranteeY = isYearlyPayment ? 485 : 448;
+        }
         
         page.drawText(guaranteeNumber, {
           x: guaranteeX,
@@ -190,7 +201,9 @@ class PDFGeneratorV5 {
 
       // === サービス提供価格（月払の場合のみ印字） ===
       // 月払を選択したときのみ「サービス提供価格（円/税込）/毎月」に印字
-      if (servicePrice && paymentMethod === 'monthly') {
+      // ただし、いえらぶ安心サポート選択時は印字しない
+      const isIerabuProduct = selectedProduct === 'ierabu-anshin-support';
+      if (servicePrice && paymentMethod === 'monthly' && !isIerabuProduct) {
         page.drawText(servicePrice, {
           x: 160,
           y: 465,
@@ -203,8 +216,9 @@ class PDFGeneratorV5 {
       // === 更新時ご請求額（年払の場合のみ印字） ===
       // 年払（yearly-1 または yearly-2）を選択したときのみ印字
       // 【更新時】運営会社（いえらぶ）にて更新案内する場合：更新時ご請求額
+      // ただし、いえらぶ安心サポート選択時は印字しない
       const isYearly = paymentMethod && paymentMethod.startsWith('yearly');
-      if (servicePrice && isYearly) {
+      if (servicePrice && isYearly && !isIerabuProduct) {
         page.drawText(servicePrice, {
           x: 430,
           y: 83,
@@ -273,15 +287,22 @@ class PDFGeneratorV5 {
       const agentFontSize = fontSize.large; // 12pt
       const lineHeight = 13; // 行間
       
+      // いえらぶ安心サポート選択時は座標が異なる
+      const isIerabuAnshinSupport = selectedProduct === 'ierabu-anshin-support';
+      const box1Y = isIerabuAnshinSupport ? 102 : 140;
+      const box2Y = isIerabuAnshinSupport ? 77 : 115;
+      const box3Y = isIerabuAnshinSupport ? 102 : 140;
+      const box4Y = isIerabuAnshinSupport ? 77 : 115;
+      
       // Box 1: 販売店名
-      // X座標: 153, Y座標(下から): 140, 最大幅: 105pt, 配置: 左寄せ・上寄せ
+      // 通常: X=153, Y=140 / いえらぶ安心サポート: X=153, Y=102
       if (agentInfo.name) {
         const maxWidth = 105;
         const nameLines = this.splitTextIntoLines(agentInfo.name, maxWidth, agentFontSize, font);
         nameLines.forEach((line, index) => {
           page.drawText(line, {
             x: 153,
-            y: 140 - (index * lineHeight),
+            y: box1Y - (index * lineHeight),
             size: agentFontSize,
             font: font,
             color: rgb(0, 0, 0)
@@ -290,14 +311,14 @@ class PDFGeneratorV5 {
       }
       
       // Box 2: 電話番号
-      // X座標: 153, Y座標(下から): 115, 最大幅: 105pt, 配置: 左寄せ・上寄せ
+      // 通常: X=153, Y=115 / いえらぶ安心サポート: X=153, Y=77
       if (agentInfo.phone) {
         const maxWidth = 105;
         const phoneLines = this.splitTextIntoLines(agentInfo.phone, maxWidth, agentFontSize, font);
         phoneLines.forEach((line, index) => {
           page.drawText(line, {
             x: 153,
-            y: 115 - (index * lineHeight),
+            y: box2Y - (index * lineHeight),
             size: agentFontSize,
             font: font,
             color: rgb(0, 0, 0)
@@ -306,14 +327,14 @@ class PDFGeneratorV5 {
       }
       
       // Box 3: 販売店コード
-      // X座標: 380, Y座標(下から): 140, 最大幅: 160pt, 配置: 左寄せ・上寄せ
+      // 通常: X=380, Y=140 / いえらぶ安心サポート: X=380, Y=102
       if (agentInfo.code) {
         const maxWidth = 160;
         const codeLines = this.splitTextIntoLines(agentInfo.code, maxWidth, agentFontSize, font);
         codeLines.forEach((line, index) => {
           page.drawText(line, {
             x: 380,
-            y: 140 - (index * lineHeight),
+            y: box3Y - (index * lineHeight),
             size: agentFontSize,
             font: font,
             color: rgb(0, 0, 0)
@@ -322,14 +343,14 @@ class PDFGeneratorV5 {
       }
       
       // Box 4: 担当者名
-      // X座標: 380, Y座標(下から): 115, 最大幅: 160pt, 配置: 左寄せ・上寄せ
+      // 通常: X=380, Y=115 / いえらぶ安心サポート: X=380, Y=77
       if (agentInfo.representativeName) {
         const maxWidth = 160;
         const repLines = this.splitTextIntoLines(agentInfo.representativeName, maxWidth, agentFontSize, font);
         repLines.forEach((line, index) => {
           page.drawText(line, {
             x: 380,
-            y: 115 - (index * lineHeight),
+            y: box4Y - (index * lineHeight),
             size: agentFontSize,
             font: font,
             color: rgb(0, 0, 0)
