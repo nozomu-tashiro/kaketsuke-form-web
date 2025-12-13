@@ -176,7 +176,8 @@ const ApplicationForm = () => {
       
       console.log('Sending POST request...');
       const response = await axios.post(`${apiUrl}/api/pdf/generate`, formData, {
-        responseType: 'blob'
+        responseType: 'blob',
+        timeout: 120000 // 120秒（2分）のタイムアウト - Render.comのコールドスタート対応
       });
       console.log('Response received:', response.status, response.statusText);
       console.log('Response data size:', response.data.size, 'bytes');
