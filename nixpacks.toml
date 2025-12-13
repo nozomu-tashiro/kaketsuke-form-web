@@ -1,0 +1,19 @@
+# Railway Nixpacks Configuration
+# This file tells Railway to build and deploy ONLY the backend
+
+[variables]
+NIXPACKS_BUILD_DIR = "backend"
+
+[phases.setup]
+nixPkgs = ["nodejs-18_x", "python3", "cairo", "pango", "pixman", "pkg-config"]
+
+[phases.install]
+paths = ["backend"]
+cmds = ["cd backend && npm ci --production=false"]
+
+[phases.build]
+paths = ["backend"]
+cmds = ["echo 'No build step required for Node.js backend'"]
+
+[start]
+cmd = "cd backend && npm start"
