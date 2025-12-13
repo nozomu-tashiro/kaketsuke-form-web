@@ -116,216 +116,19 @@ class PDFGeneratorV5 {
     // Y座標 = height - 実際の位置（上からの距離）
     
     try {
-      // 商品名は印字しない（専用帳票を使用するため）
-      
-      // === フリガナ ===
-      if (applicantNameKana) {
-        const kanaText = this.fitTextInBox(applicantNameKana, 270, fontSize.small, font);
-        page.drawText(kanaText, {
-          x: 127,
-          y: height - 195,
-          size: fontSize.small,
-          font: font,
-          color: rgb(0, 0, 0)
-        });
-      }
-
-      // === 固定電話 ===
-      if (homePhone) {
-        page.drawText(homePhone, {
-          x: 390,
-          y: height - 190,
-          size: fontSize.small,
-          font: font,
-          color: rgb(0, 0, 0)
-        });
-      }
-
-      // === お申込者様 ご署名 ===
-      if (applicantName) {
-        const nameText = this.fitTextInBox(applicantName, 270, fontSize.normal, font);
-        page.drawText(nameText, {
-          x: 127,
-          y: height - 220,
-          size: fontSize.normal,
-          font: font,
-          color: rgb(0, 0, 0)
-        });
-      }
-
-      // === 携帯電話 ===
-      if (mobilePhone) {
-        page.drawText(mobilePhone, {
-          x: 390,
-          y: height - 210,
-          size: fontSize.small,
-          font: font,
-          color: rgb(0, 0, 0)
-        });
-      }
-
-      // === 生年月日 ===
-      if (birthDate) {
-        const dateParts = this.parseDateString(birthDate);
-        page.drawText(dateParts.year, {
-          x: 434,
-          y: height - 272,
-          size: fontSize.small,
-          font: font,
-          color: rgb(0, 0, 0)
-        });
-        page.drawText(dateParts.month, {
-          x: 473,
-          y: height - 272,
-          size: fontSize.small,
-          font: font,
-          color: rgb(0, 0, 0)
-        });
-        page.drawText(dateParts.day, {
-          x: 504,
-          y: height - 272,
-          size: fontSize.small,
-          font: font,
-          color: rgb(0, 0, 0)
-        });
-      }
-
-      // === 性別 ===
-      if (gender) {
-        const xPos = gender === 'male' ? 535 : 560;
-        page.drawText('✓', {
-          x: xPos,
-          y: height - 272,
-          size: fontSize.normal,
-          font: font,
-          color: rgb(0, 0, 0)
-        });
-      }
-
-      // === 申込者住所 ===
-      const applicantAddressY = height - 216;
-      if (propertyAddress) {
-        const lines = this.splitTextIntoLines(propertyAddress, 480, fontSize.small, font);
-        lines.forEach((line, idx) => {
-          page.drawText(line, {
-            x: 114,
-            y: applicantAddressY - (idx * 10),
-            size: fontSize.small,
-            font: font,
-            color: rgb(0, 0, 0)
-          });
-        });
-      }
-
-      // === 対象物件 (LEFT COLUMN) ===
-      const propertyY = height - 267;
-      
-      // 物件名フリガナ
-      if (propertyNameKana) {
-        const kanaText = this.fitTextInBox(propertyNameKana, 185, fontSize.small, font);
-        page.drawText(kanaText, {
-          x: 136,
-          y: propertyY,
-          size: fontSize.small,
-          font: font,
-          color: rgb(0, 0, 0)
-        });
-      }
-
-      // 物件名
-      if (propertyName) {
-        const nameText = this.fitTextInBox(propertyName, 185, fontSize.normal, font);
-        page.drawText(nameText, {
-          x: 136,
-          y: height - 285,
-          size: fontSize.normal,
-          font: font,
-          color: rgb(0, 0, 0)
-        });
-      }
-
-      // === 入居者・同居人 (RIGHT COLUMN) ===
-      let residentY = height - 267;
-      residents.slice(0, 3).forEach((resident, index) => {
-        // フリガナ
-        if (resident.nameKana) {
-          const kanaText = this.fitTextInBox(resident.nameKana, 155, fontSize.small, font);
-          page.drawText(kanaText, {
-            x: 324,
-            y: residentY,
-            size: fontSize.small,
-            font: font,
-            color: rgb(0, 0, 0)
-          });
-        }
-        
-        // 続柄
-        if (resident.relationship) {
-          page.drawText(resident.relationship, {
-            x: 520,
-            y: residentY,
-            size: fontSize.small,
-            font: font,
-            color: rgb(0, 0, 0)
-          });
-        }
-        
-        residentY -= 18;
-        
-        // お名前
-        if (resident.name) {
-          const nameText = this.fitTextInBox(resident.name, 155, fontSize.normal, font);
-          page.drawText(nameText, {
-            x: 324,
-            y: residentY,
-            size: fontSize.normal,
-            font: font,
-            color: rgb(0, 0, 0)
-          });
-        }
-        
-        residentY -= 26;
-      });
-
-      // 号室/部屋番号 (RIGHT SIDE)
-      if (roomNumber) {
-        page.drawText(roomNumber, {
-          x: 560,
-          y: height - 285,
-          size: fontSize.small,
-          font: font,
-          color: rgb(0, 0, 0)
-        });
-      }
-
-      // === サービス期間 ===
-      const serviceY = height - 337;
-      
-      // 開始日
-      if (applicationDate) {
-        const dateParts = this.parseDateString(applicationDate);
-        page.drawText(dateParts.year, {
-          x: 174,
-          y: serviceY,
-          size: fontSize.small,
-          font: font,
-          color: rgb(0, 0, 0)
-        });
-        page.drawText(dateParts.month, {
-          x: 217,
-          y: serviceY,
-          size: fontSize.small,
-          font: font,
-          color: rgb(0, 0, 0)
-        });
-        page.drawText(dateParts.day, {
-          x: 248,
-          y: serviceY,
-          size: fontSize.small,
-          font: font,
-          color: rgb(0, 0, 0)
-        });
-      }
+      // === USER REQUEST: すべての申込基本情報を印字しない ===
+      // 削除された項目:
+      // - フリガナ、固定電話、氏名、携帯電話
+      // - 生年月日、性別
+      // - 申込者住所
+      // - 対象物件（物件名フリガナ、物件名、号室）
+      // - 入居者・同居人情報
+      // - サービス期間（開始日）
+      //
+      // 印字する項目:
+      // - オプションサービスのチェックマーク
+      // - 保証番号
+      // - 代理店情報
 
       // === オプションサービスのチェックマーク ===
       // 右上の緑の枠内にチェックマークを印字
@@ -334,7 +137,7 @@ class PDFGeneratorV5 {
       const excludedProduct = 'ierabu-anshin-support';
       if (selectedProduct !== excludedProduct) {
         // ①近隣トラブル解決支援サービス
-        if (selectedOptions.includes('trouble-resolution')) {
+        if (selectedOptions.includes('neighbor-trouble')) {
           page.drawText('✓', {
             x: 376,
             y: 782,
@@ -368,102 +171,61 @@ class PDFGeneratorV5 {
       }
       
       // === 保証番号 ===
-      // 「いえらぶ安心保証（家賃保証）契約者保証番号（④）」の括弧内に印字
+      // 商品と支払方法によって座標が異なる
+      // いえらぶ安心サポート: X=430, Y=443（サービス期間の行の右側）
+      // 月払（その他）: X=430, Y=448
+      // 年払（その他）: X=445, Y=485
       if (guaranteeNumber) {
+        const isIerabuProduct = selectedProduct === 'ierabu-anshin-support';
+        const isYearlyPayment = paymentMethod && paymentMethod.startsWith('yearly');
+        
+        let guaranteeX, guaranteeY;
+        if (isIerabuProduct) {
+          // いえらぶ安心サポート選択時は固定
+          guaranteeX = 430;
+          guaranteeY = 443;
+        } else {
+          // その他の商品は支払方法で変わる
+          guaranteeX = isYearlyPayment ? 445 : 430;
+          guaranteeY = isYearlyPayment ? 485 : 448;
+        }
+        
         page.drawText(guaranteeNumber, {
-          x: 440,
-          y: 400,
+          x: guaranteeX,
+          y: guaranteeY,
           size: fontSize.large,
           font: font,
           color: rgb(0, 0, 0)
         });
       }
 
-      // === サービス提供料金（月払のみ） ===
-      if (paymentMethod === 'monthly' && servicePrice) {
+      // === サービス提供価格（月払の場合のみ印字） ===
+      // 月払を選択したときのみ「サービス提供価格（円/税込）/毎月」に印字
+      // ただし、いえらぶ安心サポート選択時は印字しない
+      const isIerabuProduct = selectedProduct === 'ierabu-anshin-support';
+      if (servicePrice && paymentMethod === 'monthly' && !isIerabuProduct) {
         page.drawText(servicePrice, {
           x: 160,
-          y: serviceY - 60,
-          size: fontSize.small,
+          y: 465,
+          size: 14,
           font: font,
           color: rgb(0, 0, 0)
         });
       }
-
-      // === 緊急連絡先（シニア向けサービス選択時） ===
-      if (selectedOptions.includes('senior-watch') && emergencyContact.name) {
-        const emergencyY = height - 424;
-        
-        // フリガナ
-        if (emergencyContact.nameKana) {
-          const kanaText = this.fitTextInBox(emergencyContact.nameKana, 270, fontSize.small, font);
-          page.drawText(kanaText, {
-            x: 135,
-            y: emergencyY,
-            size: fontSize.small,
-            font: font,
-            color: rgb(0, 0, 0)
-          });
-        }
-        
-        // 固定電話
-        if (emergencyContact.homePhone) {
-          page.drawText(emergencyContact.homePhone, {
-            x: 420,
-            y: emergencyY,
-            size: fontSize.small,
-            font: font,
-            color: rgb(0, 0, 0)
-          });
-        }
-        
-        // お名前
-        if (emergencyContact.name) {
-          const nameText = this.fitTextInBox(emergencyContact.name, 270, fontSize.normal, font);
-          page.drawText(nameText, {
-            x: 135,
-            y: emergencyY - 17,
-            size: fontSize.normal,
-            font: font,
-            color: rgb(0, 0, 0)
-          });
-        }
-        
-        // 携帯電話
-        if (emergencyContact.mobilePhone) {
-          page.drawText(emergencyContact.mobilePhone, {
-            x: 420,
-            y: emergencyY - 17,
-            size: fontSize.small,
-            font: font,
-            color: rgb(0, 0, 0)
-          });
-        }
-        
-        // 続柄
-        if (emergencyContact.relationship) {
-          page.drawText(emergencyContact.relationship, {
-            x: 478,
-            y: emergencyY - 36,
-            size: fontSize.small,
-            font: font,
-            color: rgb(0, 0, 0)
-          });
-        }
-        
-        // 住所（2行分割対応）
-        if (emergencyContact.address) {
-          const lines = this.splitTextIntoLines(emergencyContact.address, 440, fontSize.small, font);
-          lines.forEach((line, idx) => {
-            page.drawText(line, {
-              x: 135,
-              y: emergencyY - 53 - (idx * 10),
-              size: fontSize.small,
-              font: font,
-              color: rgb(0, 0, 0)
-            });
-          });
-        }
+      
+      // === 更新時ご請求額（年払の場合のみ印字） ===
+      // 年払（yearly-1 または yearly-2）を選択したときのみ印字
+      // 【更新時】運営会社（いえらぶ）にて更新案内する場合：更新時ご請求額
+      // ただし、いえらぶ安心サポート選択時は印字しない
+      const isYearly = paymentMethod && paymentMethod.startsWith('yearly');
+      if (servicePrice && isYearly && !isIerabuProduct) {
+        page.drawText(servicePrice, {
+          x: 430,
+          y: 83,
+          size: 14,
+          font: font,
+          color: rgb(0, 0, 0)
+        });
       }
       
       // === キャンセル届（解約届/過去日連絡） ===
@@ -525,15 +287,22 @@ class PDFGeneratorV5 {
       const agentFontSize = fontSize.large; // 12pt
       const lineHeight = 13; // 行間
       
+      // いえらぶ安心サポート選択時は座標が異なる
+      const isIerabuAnshinSupport = selectedProduct === 'ierabu-anshin-support';
+      const box1Y = isIerabuAnshinSupport ? 112 : 140;
+      const box2Y = isIerabuAnshinSupport ? 87 : 115;
+      const box3Y = isIerabuAnshinSupport ? 112 : 140;
+      const box4Y = isIerabuAnshinSupport ? 87 : 115;
+      
       // Box 1: 販売店名
-      // X座標: 153, Y座標(下から): 140, 最大幅: 120pt, 配置: 左寄せ・上寄せ
+      // 通常: X=153, Y=140 / いえらぶ安心サポート: X=153, Y=102
       if (agentInfo.name) {
-        const maxWidth = 120;
+        const maxWidth = 105;
         const nameLines = this.splitTextIntoLines(agentInfo.name, maxWidth, agentFontSize, font);
         nameLines.forEach((line, index) => {
           page.drawText(line, {
             x: 153,
-            y: 140 - (index * lineHeight),
+            y: box1Y - (index * lineHeight),
             size: agentFontSize,
             font: font,
             color: rgb(0, 0, 0)
@@ -542,14 +311,14 @@ class PDFGeneratorV5 {
       }
       
       // Box 2: 電話番号
-      // X座標: 153, Y座標(下から): 115, 最大幅: 120pt, 配置: 左寄せ・上寄せ
+      // 通常: X=153, Y=115 / いえらぶ安心サポート: X=153, Y=77
       if (agentInfo.phone) {
-        const maxWidth = 120;
+        const maxWidth = 105;
         const phoneLines = this.splitTextIntoLines(agentInfo.phone, maxWidth, agentFontSize, font);
         phoneLines.forEach((line, index) => {
           page.drawText(line, {
             x: 153,
-            y: 115 - (index * lineHeight),
+            y: box2Y - (index * lineHeight),
             size: agentFontSize,
             font: font,
             color: rgb(0, 0, 0)
@@ -558,14 +327,14 @@ class PDFGeneratorV5 {
       }
       
       // Box 3: 販売店コード
-      // X座標: 380, Y座標(下から): 140, 最大幅: 110pt, 配置: 左寄せ・上寄せ
+      // 通常: X=380, Y=140 / いえらぶ安心サポート: X=380, Y=102
       if (agentInfo.code) {
-        const maxWidth = 110;
+        const maxWidth = 160;
         const codeLines = this.splitTextIntoLines(agentInfo.code, maxWidth, agentFontSize, font);
         codeLines.forEach((line, index) => {
           page.drawText(line, {
             x: 380,
-            y: 140 - (index * lineHeight),
+            y: box3Y - (index * lineHeight),
             size: agentFontSize,
             font: font,
             color: rgb(0, 0, 0)
@@ -574,14 +343,14 @@ class PDFGeneratorV5 {
       }
       
       // Box 4: 担当者名
-      // X座標: 380, Y座標(下から): 115, 最大幅: 110pt, 配置: 左寄せ・上寄せ
+      // 通常: X=380, Y=115 / いえらぶ安心サポート: X=380, Y=77
       if (agentInfo.representativeName) {
-        const maxWidth = 110;
+        const maxWidth = 160;
         const repLines = this.splitTextIntoLines(agentInfo.representativeName, maxWidth, agentFontSize, font);
         repLines.forEach((line, index) => {
           page.drawText(line, {
             x: 380,
-            y: 115 - (index * lineHeight),
+            y: box4Y - (index * lineHeight),
             size: agentFontSize,
             font: font,
             color: rgb(0, 0, 0)

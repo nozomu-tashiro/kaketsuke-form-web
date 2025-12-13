@@ -99,254 +99,86 @@ class PDFGenerator {
     // Draw border
     this.drawBorder(doc, yPos);
 
-    // Application type (新規/更新)
-    yPos += 10;
-    doc.fontSize(10)
-       .font('Helvetica')
-       .text('申込種別:', this.margin + 10, yPos);
-    
-    doc.fontSize(11)
-       .font('Helvetica-Bold')
-       .text(applicationType === 'new' ? '新規' : '更新', this.margin + 80, yPos);
-    
-    yPos += 20;
-
-    // Application date
-    doc.fontSize(10)
-       .font('Helvetica')
-       .text('お申込日:', this.margin + 10, yPos);
-    
-    doc.fontSize(10)
-       .text(this.formatDate(applicationDate), this.margin + 80, yPos);
-    
-    yPos += 25;
-
-    // Section: お申込者
-    this.drawSectionHeader(doc, yPos, 'お申込者');
-    yPos += 20;
-
-    // Applicant name
-    doc.fontSize(9)
-       .font('Helvetica')
-       .text('お申込者様名:', this.margin + 15, yPos);
-    doc.fontSize(10)
-       .font('Helvetica-Bold')
-       .text(applicantName || '', this.margin + 100, yPos);
-    yPos += 18;
-
-    // Furigana
-    doc.fontSize(9)
-       .font('Helvetica')
-       .text('フリガナ:', this.margin + 15, yPos);
-    doc.fontSize(10)
-       .text(applicantNameKana || '', this.margin + 100, yPos);
-    yPos += 18;
-
-    // Mobile phone
-    doc.fontSize(9)
-       .text('携帯番号:', this.margin + 15, yPos);
-    doc.fontSize(10)
-       .text(mobilePhone || '', this.margin + 100, yPos);
-    yPos += 18;
-
-    // Home phone
-    doc.fontSize(9)
-       .text('固定番号:', this.margin + 15, yPos);
-    doc.fontSize(10)
-       .text(homePhone || '', this.margin + 100, yPos);
-    yPos += 18;
-
-    // Birth date
-    doc.fontSize(9)
-       .text('生年月日:', this.margin + 15, yPos);
-    doc.fontSize(10)
-       .text(this.formatDate(birthDate), this.margin + 100, yPos);
-    yPos += 18;
-
-    // Gender
-    doc.fontSize(9)
-       .text('性別:', this.margin + 15, yPos);
-    doc.fontSize(10)
-       .text(gender === 'male' ? '男性' : '女性', this.margin + 100, yPos);
-    yPos += 25;
-
-    // Section: 入居者・同居人
-    if (residents && residents.length > 0) {
-      this.drawSectionHeader(doc, yPos, '入居者・同居人');
-      yPos += 20;
-
-      residents.forEach((resident, index) => {
-        doc.fontSize(9)
-           .font('Helvetica')
-           .text(`お名前(${index + 1}):`, this.margin + 15, yPos);
-        doc.fontSize(10)
-           .text(resident.name || '', this.margin + 100, yPos);
-        yPos += 15;
-
-        doc.fontSize(9)
-           .text('フリガナ:', this.margin + 15, yPos);
-        doc.fontSize(10)
-           .text(resident.nameKana || '', this.margin + 100, yPos);
-        yPos += 15;
-
-        doc.fontSize(9)
-           .text('続柄:', this.margin + 15, yPos);
-        doc.fontSize(10)
-           .text(resident.relationship || '', this.margin + 100, yPos);
-        yPos += 20;
-      });
-    }
-
-    // Section: 対象物件
-    this.drawSectionHeader(doc, yPos, '対象物件');
-    yPos += 20;
-
-    doc.fontSize(9)
-       .font('Helvetica')
-       .text('住所:', this.margin + 15, yPos);
-    doc.fontSize(10)
-       .text(propertyAddress || '', this.margin + 100, yPos, {
-         width: 400
-       });
-    yPos += 18;
-
-    doc.fontSize(9)
-       .text('物件名:', this.margin + 15, yPos);
-    doc.fontSize(10)
-       .text(propertyName || '', this.margin + 100, yPos);
-    yPos += 15;
-
-    doc.fontSize(9)
-       .text('フリガナ:', this.margin + 15, yPos);
-    doc.fontSize(10)
-       .text(propertyNameKana || '', this.margin + 100, yPos);
-    yPos += 15;
-
-    doc.fontSize(9)
-       .text('号室:', this.margin + 15, yPos);
-    doc.fontSize(10)
-       .text(roomNumber || '', this.margin + 100, yPos);
-    yPos += 25;
-
-    // Service information
-    this.drawSectionHeader(doc, yPos, 'サービス情報');
-    yPos += 20;
-
-    doc.fontSize(9)
-       .text('商品名:', this.margin + 15, yPos);
-    doc.fontSize(10)
-       .font('Helvetica-Bold')
-       .text(this.getProductName(selectedProduct), this.margin + 100, yPos);
-    yPos += 18;
-
-    doc.fontSize(9)
-       .font('Helvetica')
-       .text('支払方法:', this.margin + 15, yPos);
-    doc.fontSize(10)
-       .text(this.getPaymentMethodText(paymentMethod), this.margin + 100, yPos);
-    yPos += 18;
-
-    if (servicePrice) {
-      doc.fontSize(9)
-         .text('サービス価格:', this.margin + 15, yPos);
-      doc.fontSize(10)
-         .text(`¥${servicePrice}`, this.margin + 100, yPos);
-      yPos += 18;
-    }
+    // Skip all basic information sections per user request
+    // Only display agent info, service options, and guarantee number using absolute coordinates
 
     if (selectedOptions && selectedOptions.length > 0) {
-      doc.fontSize(9)
-         .text('オプション:', this.margin + 15, yPos);
+      // Using absolute coordinates from Excel specification
+      // Service options positioned at right side boxes
+      const optionNames = {
+        'neighbor-trouble': '① 近隣トラブル解決支援サービス',
+        'senior-watch': '② シニア向り総合見守りサービス', 
+        'appliance-support': '③ 家電の安心修理サポート'
+      };
       
-      selectedOptions.forEach((option, index) => {
-        doc.fontSize(9)
-           .text(`・${this.getOptionName(option)}`, this.margin + 100, yPos);
-        yPos += 15;
+      const optionCoords = {
+        'neighbor-trouble': { x: 376, y: this.pageHeight - 782 }, // Y=782 from bottom
+        'senior-watch': { x: 376, y: this.pageHeight - 762 },     // Y=762 from bottom
+        'appliance-support': { x: 376, y: this.pageHeight - 742 } // Y=742 from bottom
+      };
+      
+      selectedOptions.forEach((option) => {
+        const coords = optionCoords[option];
+        const name = optionNames[option];
+        if (coords && name) {
+          doc.fontSize(12)
+             .font('Helvetica')
+             .text(name, coords.x, coords.y, {
+               align: 'left'
+             });
+        }
       });
       yPos += 5;
     }
 
     if (guaranteeNumber) {
-      doc.fontSize(9)
-         .text('保証番号:', this.margin + 15, yPos);
-      doc.fontSize(10)
-         .text(guaranteeNumber, this.margin + 100, yPos);
+      // Using absolute coordinates from Excel specification
+      // ④保証番号 - X=430, Y=510 (from bottom), Font size=12pt
+      const guaranteeY = this.pageHeight - 510;
+      doc.fontSize(12)
+         .font('Helvetica')
+         .text(guaranteeNumber, 430, guaranteeY, {
+           align: 'left'
+         });
       yPos += 20;
     }
 
-    // Emergency contact (if シニア向けサービス is selected)
-    if (selectedOptions && selectedOptions.includes('senior-watch') && emergencyContact) {
-      yPos += 5;
-      this.drawSectionHeader(doc, yPos, '緊急連絡先');
-      yPos += 20;
-
-      doc.fontSize(9)
-         .text('お名前:', this.margin + 15, yPos);
-      doc.fontSize(10)
-         .text(emergencyContact.name || '', this.margin + 100, yPos);
-      yPos += 15;
-
-      doc.fontSize(9)
-         .text('フリガナ:', this.margin + 15, yPos);
-      doc.fontSize(10)
-         .text(emergencyContact.nameKana || '', this.margin + 100, yPos);
-      yPos += 15;
-
-      doc.fontSize(9)
-         .text('住所:', this.margin + 15, yPos);
-      doc.fontSize(10)
-         .text(emergencyContact.address || '', this.margin + 100, yPos, {
-         width: 400
-       });
-      yPos += 18;
-
-      doc.fontSize(9)
-         .text('固定電話:', this.margin + 15, yPos);
-      doc.fontSize(10)
-         .text(emergencyContact.homePhone || '', this.margin + 100, yPos);
-      yPos += 15;
-
-      doc.fontSize(9)
-         .text('携帯電話:', this.margin + 15, yPos);
-      doc.fontSize(10)
-         .text(emergencyContact.mobilePhone || '', this.margin + 100, yPos);
-      yPos += 15;
-
-      doc.fontSize(9)
-         .text('続柄:', this.margin + 15, yPos);
-      doc.fontSize(10)
-         .text(emergencyContact.relationship || '', this.margin + 100, yPos);
-      yPos += 20;
-    }
+    // Emergency contact section removed per user request
 
     // Section: 販売店情報
-    yPos += 5;
-    this.drawSectionHeader(doc, yPos, '販売店情報');
-    yPos += 20;
-
-    doc.fontSize(9)
+    // Using absolute coordinates from Excel specification
+    // Box 1: 販売店名 - X=153, Y=140 (from bottom), Max width=120pt
+    const box1Y = this.pageHeight - 140; // Convert from bottom
+    doc.fontSize(10)
        .font('Helvetica')
-       .text('販売店名:', this.margin + 15, yPos);
+       .text(agentInfo.name || '', 153, box1Y, {
+         width: 120,
+         align: 'left'
+       });
+    
+    // Box 2: 電話番号 - X=153, Y=115 (from bottom), Max width=120pt
+    const box2Y = this.pageHeight - 115;
     doc.fontSize(10)
-       .text(agentInfo.name || '', this.margin + 100, yPos);
-    yPos += 18;
-
-    doc.fontSize(9)
-       .text('電話番号:', this.margin + 15, yPos);
+       .text(agentInfo.phone || '', 153, box2Y, {
+         width: 120,
+         align: 'left'
+       });
+    
+    // Box 3: 販売店コード - X=380, Y=140 (from bottom), Max width=110pt
+    const box3Y = this.pageHeight - 140;
     doc.fontSize(10)
-       .text(agentInfo.phone || '', this.margin + 100, yPos);
-    yPos += 18;
-
-    doc.fontSize(9)
-       .text('販売店コード:', this.margin + 15, yPos);
+       .text(agentInfo.code || '', 380, box3Y, {
+         width: 110,
+         align: 'left'
+       });
+    
+    // Box 4: 担当者名 - X=380, Y=115 (from bottom), Max width=110pt
+    const box4Y = this.pageHeight - 115;
     doc.fontSize(10)
-       .text(agentInfo.code || '', this.margin + 100, yPos);
-    yPos += 18;
-
-    doc.fontSize(9)
-       .text('担当者名:', this.margin + 15, yPos);
-    doc.fontSize(10)
-       .text(agentInfo.representativeName || '', this.margin + 100, yPos);
+       .text(agentInfo.representativeName || '', 380, box4Y, {
+         width: 110,
+         align: 'left'
+       });
   }
 
   drawBorder(doc, yPos) {
