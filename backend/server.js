@@ -28,30 +28,22 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Application Form System API is running' });
 });
 
-// Root endpoint
+// Root endpoint - API情報を返す
 app.get('/', (req, res) => {
   res.json({ 
     status: 'success',
     message: '駆付けサービス入会申込書PDF出力システム - Backend API',
     version: '1.0.0',
+    environment: process.env.NODE_ENV || 'development',
     endpoints: {
-      health: '/api/health',
+      health: 'GET /api/health',
       generatePDF: 'POST /api/pdf/generate'
     }
   });
 });
 
-// Serve static files in production (only if frontend build exists)
-if (process.env.NODE_ENV === 'production' && process.env.SERVE_FRONTEND === 'true') {
-  const frontendPath = path.join(__dirname, '../frontend/build');
-  if (require('fs').existsSync(frontendPath)) {
-    app.use(express.static(frontendPath));
-    
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(frontendPath, 'index.html'));
-    });
-  }
-}
+// Note: このバックエンドはAPIサーバーとして動作します
+// フロントエンドは別途Vercelやその他のサービスでホストしてください
 
 // Error handling middleware
 app.use((err, req, res, next) => {

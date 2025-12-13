@@ -1,0 +1,10 @@
+# Ignore parent directories
+../frontend/
+../node_modules/
+../.git/
+../data/
+../docs/
+../*.pdf
+../*.md
+../*.py
+../*.log
