@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>駆付けサービス 入会申込書作成システム</h1>
+        <h1>駆付けサービス 入会申込書作成システム ベータ版（β版）</h1>
         <p className="subtitle">オンラインで申込書を作成し、PDFで出力できます</p>
       </header>
       <main className="App-main">
