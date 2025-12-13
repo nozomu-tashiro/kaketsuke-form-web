@@ -343,3 +343,4 @@ MIT
 ---
 
 © 2024 駆付けサービス入会申込システム ベータ版（β版）. All rights reserved.
+# Trigger Vercel deployment
