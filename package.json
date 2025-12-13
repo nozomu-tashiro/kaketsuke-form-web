@@ -7,11 +7,12 @@
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
     "dev:backend": "cd backend && nodemon server.js",
     "dev:frontend": "cd frontend && npm start",
-    "build": "echo 'Please build frontend or backend separately'",
-    "build:backend": "cd backend && npm run build",
+    "build": "cd backend && npm install",
+    "build:backend": "cd backend && npm install",
     "build:frontend": "cd frontend && npm run build",
     "start": "cd backend && node server.js",
-    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install"
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "vercel-build": "cd frontend && npm install && npm run build"
   },
   "keywords": ["application", "pdf", "form"],
   "author": "",
