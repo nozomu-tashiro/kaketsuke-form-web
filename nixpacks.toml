@@ -15,3 +15,4 @@ cmds = ["echo 'Backend ready - no build step required'"]
 
 [start]
 cmd = "cd backend && npm start"
+# Force rebuild - clear cache
