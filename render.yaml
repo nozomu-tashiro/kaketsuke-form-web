@@ -1,0 +1,15 @@
+# Render.com Configuration for Backend
+services:
+  - type: web
+    name: kaketsuke-form-backend
+    env: node
+    region: frankfurt  # ヨーロッパリージョン（日本からも速い）
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+    healthCheckPath: /
