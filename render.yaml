@@ -6,8 +6,8 @@ services:
     region: singapore  # 日本から最速
     plan: free
     rootDir: backend
-    buildCommand: cd backend && npm install
-    startCommand: cd backend && node server.js
+    buildCommand: npm install
+    startCommand: node server.js
     envVars:
       - key: NODE_ENV
         value: production
