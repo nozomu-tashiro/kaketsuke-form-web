@@ -41,6 +41,8 @@ const ApplicationForm = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [progress, setProgress] = useState(0);
+  const [progressStep, setProgressStep] = useState('');
   
   // Accordion state for optional sections
   const [accordionState, setAccordionState] = useState({
@@ -163,6 +165,8 @@ const ApplicationForm = () => {
 
     setLoading(true);
     setError('');
+    setProgress(0);
+    setProgressStep('書類レイアウトを作成しています');
     console.log('Loading state set to true');
 
     try {
@@ -174,11 +178,34 @@ const ApplicationForm = () => {
       console.log('Form Data:', JSON.stringify(formData, null, 2));
       console.log('===========================');
       
+      // プログレスバーのアニメーション
+      const progressInterval = setInterval(() => {
+        setProgress(prev => {
+          if (prev < 30) {
+            return prev + 2;
+          } else if (prev < 60) {
+            return prev + 1;
+          } else if (prev < 90) {
+            return prev + 0.5;
+          }
+          return prev;
+        });
+      }, 200);
+
+      // ステップ表示の更新
+      setTimeout(() => setProgressStep('データを準備しています'), 1000);
+      setTimeout(() => setProgressStep('PDFを書き出しています'), 3000);
+      setTimeout(() => setProgressStep('最終調整をしています'), 8000);
+      
       console.log('Sending POST request...');
       const response = await axios.post(`${apiUrl}/api/pdf/generate`, formData, {
         responseType: 'blob',
         timeout: 120000 // 120秒（2分）のタイムアウト - Render.comのコールドスタート対応
       });
+      
+      clearInterval(progressInterval);
+      setProgress(100);
+      setProgressStep('完了しました！');
       console.log('Response received:', response.status, response.statusText);
       console.log('Response data size:', response.data.size, 'bytes');
 
@@ -195,9 +222,11 @@ const ApplicationForm = () => {
       window.URL.revokeObjectURL(url);
 
       console.log('PDF download complete!');
-      alert('PDFの生成に成功しました！');
+      // alert('PDFの生成に成功しました！'); // アラート削除、プログレス表示で十分
       
     } catch (err) {
+      setProgress(0);
+      setProgressStep('');
       console.error('=== ERROR generating PDF ===');
       console.error('Error object:', err);
       console.error('Error message:', err.message);
@@ -867,6 +896,44 @@ const ApplicationForm = () => {
           </button>
         </div>
       </form>
+
+      {/* プログレスモーダル */}
+      {loading && (
+        <div className="progress-modal-overlay">
+          <div className="progress-modal">
+            <h3 className="progress-title">正式書類（PDF）を作成しています</h3>
+            
+            <div className="progress-steps">
+              <div className={`progress-step ${progress >= 10 ? 'completed' : progress > 0 ? 'active' : ''}`}>
+                <span className="step-icon">{progress >= 30 ? '✓' : '▷'}</span>
+                <span className="step-text">書類レイアウトを作成しています</span>
+              </div>
+              <div className={`progress-step ${progress >= 40 ? 'completed' : progress >= 30 ? 'active' : ''}`}>
+                <span className="step-icon">{progress >= 70 ? '✓' : progress >= 30 ? '▷' : '○'}</span>
+                <span className="step-text">データを準備しています</span>
+              </div>
+              <div className={`progress-step ${progress >= 70 ? 'active' : ''}`}>
+                <span className="step-icon">{progress >= 95 ? '✓' : progress >= 70 ? '▷' : '○'}</span>
+                <span className="step-text">PDFを書き出しています</span>
+              </div>
+            </div>
+
+            <div className="progress-bar-container">
+              <div className="progress-bar" style={{ width: `${progress}%` }}>
+                <span className="progress-percentage">{Math.round(progress)}%</span>
+              </div>
+            </div>
+
+            <div className="progress-info">
+              <p className="progress-status">{progressStep}</p>
+              <p className="progress-notice">
+                初回は通常30秒ほどかかる場合があります<br />
+                ※画面は閉じずにお待ちください
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
