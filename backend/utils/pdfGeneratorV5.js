@@ -101,6 +101,15 @@ class PDFGeneratorV5 {
       agentInfo = {},
       applicationDate = ''
     } = formData;
+    
+    // デバッグ: 物件情報の値を確認
+    console.log('=== 物件情報デバッグ ===');
+    console.log('propertyAddress:', propertyAddress);
+    console.log('propertyName:', propertyName);
+    console.log('propertyNameKana:', propertyNameKana);
+    console.log('roomNumber:', roomNumber);
+    console.log('selectedProduct:', selectedProduct);
+    console.log('=======================');
 
     // フォント設定（赤枠内に最適なサイズで収まるよう調整）
     const fontSize = {
