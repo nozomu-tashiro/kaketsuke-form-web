@@ -23,6 +23,7 @@ const ApplicationForm = () => {
     selectedOptions: [],
     servicePrice: '',
     guaranteeNumber: '',
+    servicePeriodStartDate: '',
     emergencyContact: {
       name: '',
       nameKana: '',
@@ -47,6 +48,7 @@ const ApplicationForm = () => {
   // Accordion state for optional sections
   const [accordionState, setAccordionState] = useState({
     basicInfo: false,
+    servicePeriod: false,
     residents: false,
     property: false,
     emergencyContact: false
@@ -651,6 +653,60 @@ const ApplicationForm = () => {
                     />
                     女性
                   </label>
+                </div>
+              </div>
+            </div>
+          )}
+        </section>
+
+        {/* サービス期間 */}
+        <section className="form-section">
+          <div className="accordion-header">
+            <label className="accordion-label">
+              <input
+                type="checkbox"
+                checked={accordionState.servicePeriod}
+                onChange={() => toggleAccordion('servicePeriod')}
+              />
+              <h2 className="section-title">
+                サービス期間
+              </h2>
+            </label>
+          </div>
+          
+          {accordionState.servicePeriod && (
+            <div className="accordion-content">
+              <div className="form-row">
+                <label className="form-label">
+                  開始日
+                </label>
+                <input
+                  type="date"
+                  name="servicePeriodStartDate"
+                  value={formData.servicePeriodStartDate}
+                  onChange={handleInputChange}
+                  className="form-input"
+                />
+              </div>
+
+              <div className="form-row">
+                <label className="form-label">
+                  期間
+                </label>
+                <div className="service-period-display">
+                  {formData.servicePeriodStartDate ? (
+                    formData.paymentMethod === 'monthly' ? (
+                      <p>
+                        西暦{formData.servicePeriodStartDate.replace(/-/g, '年').replace(/年(\d+)$/, '年$1月').replace(/月(\d+)$/, '月$1日')} から
+                      </p>
+                    ) : (
+                      <p>
+                        西暦{formData.servicePeriodStartDate.replace(/-/g, '年').replace(/年(\d+)$/, '年$1月').replace(/月(\d+)$/, '月$1日')} から２年後応答月の月末まで
+                      </p>
+                    )
+                  ) : (
+                    <p className="placeholder-text">開始日を選択してください</p>
+                  )}
                 </div>
               </div>
             </div>
