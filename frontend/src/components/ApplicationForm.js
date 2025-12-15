@@ -475,7 +475,6 @@ const ApplicationForm = () => {
               />
               <h2 className="section-title">
                 対象物件情報
-                <span className="warning-text">※入力しても印字できません。</span>
               </h2>
             </label>
           </div>
@@ -549,10 +548,11 @@ const ApplicationForm = () => {
                 type="checkbox"
                 checked={accordionState.basicInfo}
                 onChange={() => toggleAccordion('basicInfo')}
+                disabled
               />
               <h2 className="section-title">
                 申込基本情報
-                <span className="warning-text">※入力しても印字できません。</span>
+                <span className="warning-text">※現在入力できません</span>
               </h2>
             </label>
           </div>
@@ -708,10 +708,11 @@ const ApplicationForm = () => {
                 type="checkbox"
                 checked={accordionState.residents}
                 onChange={() => toggleAccordion('residents')}
+                disabled
               />
               <h2 className="section-title">
                 入居者・同居人情報
-                <span className="warning-text">※入力しても印字できません。</span>
+                <span className="warning-text">※現在入力できません</span>
               </h2>
             </label>
           </div>
@@ -789,10 +790,11 @@ const ApplicationForm = () => {
                   type="checkbox"
                   checked={accordionState.emergencyContact}
                   onChange={() => toggleAccordion('emergencyContact')}
+                  disabled
                 />
                 <h2 className="section-title">
                   緊急連絡先
-                  <span className="warning-text">※入力しても印字できません。</span>
+                  <span className="warning-text">※現在入力できません</span>
                 </h2>
               </label>
             </div>
