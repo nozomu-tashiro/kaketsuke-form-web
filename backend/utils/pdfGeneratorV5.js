@@ -286,11 +286,11 @@ class PDFGeneratorV5 {
       const printPropertyInfo = selectedProduct !== 'ierabu-anshin-support';
       
       if (printPropertyInfo) {
-        // 住所: X=153, Y=610, フォントサイズ=12pt
+        // 住所: X=153, Y=605, フォントサイズ=12pt
         if (propertyAddress) {
           page.drawText(propertyAddress, {
             x: 153,
-            y: 610,
+            y: 605,
             size: fontSize.large, // 12pt
             font: font,
             color: rgb(0, 0, 0)
