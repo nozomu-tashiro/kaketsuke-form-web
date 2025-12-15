@@ -357,6 +357,109 @@ class PDFGeneratorV5 {
         });
       }
       
+      // === 申込基本情報 ===
+      // 全商品共通の座標
+      
+      // お申込者様名
+      if (applicantName) {
+        page.drawText(applicantName, {
+          x: 135,
+          y: 705,
+          size: fontSize.large, // 12pt
+          font: font,
+          color: rgb(0, 0, 0)
+        });
+      }
+      
+      // フリガナ
+      if (applicantNameKana) {
+        page.drawText(applicantNameKana, {
+          x: 135,
+          y: 690,
+          size: fontSize.medium, // 10pt
+          font: font,
+          color: rgb(0, 0, 0)
+        });
+      }
+      
+      // 携帯番号
+      if (mobilePhone) {
+        page.drawText(mobilePhone, {
+          x: 430,
+          y: 700,
+          size: fontSize.large, // 12pt
+          font: font,
+          color: rgb(0, 0, 0)
+        });
+      }
+      
+      // 固定番号
+      if (homePhone) {
+        page.drawText(homePhone, {
+          x: 430,
+          y: 680,
+          size: fontSize.large, // 12pt
+          font: font,
+          color: rgb(0, 0, 0)
+        });
+      }
+      
+      // 生年月日を分割（YYYY/MM/DD形式を想定）
+      if (birthDate) {
+        const birthParts = birthDate.split('-'); // ISO形式: YYYY-MM-DD
+        if (birthParts.length === 3) {
+          const [year, month, day] = birthParts;
+          
+          // 生年月日（YYYY）
+          page.drawText(year, {
+            x: 200,
+            y: 655,
+            size: fontSize.large, // 12pt
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+          
+          // 生年月日（MM）
+          page.drawText(month, {
+            x: 230,
+            y: 655,
+            size: fontSize.large, // 12pt
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+          
+          // 生年月日（DD）
+          page.drawText(day, {
+            x: 260,
+            y: 655,
+            size: fontSize.large, // 12pt
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+        }
+      }
+      
+      // 性別（チェックマーク）
+      if (gender === 'male') {
+        // 男性の場合
+        page.drawText('✓', {
+          x: 475,
+          y: 655,
+          size: fontSize.large, // 12pt
+          font: font,
+          color: rgb(0, 0, 0)
+        });
+      } else if (gender === 'female') {
+        // 女性の場合
+        page.drawText('✓', {
+          x: 490,
+          y: 655,
+          size: 13, // 13pt
+          font: font,
+          color: rgb(0, 0, 0)
+        });
+      }
+      
       // === 代理店情報 ===
       // ユーザー提供の最終座標表に基づく配置
       // PDF座標系: 原点(0,0)は左下、Yは下から上へ増加
