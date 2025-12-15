@@ -548,11 +548,9 @@ const ApplicationForm = () => {
                 type="checkbox"
                 checked={accordionState.basicInfo}
                 onChange={() => toggleAccordion('basicInfo')}
-                disabled
               />
               <h2 className="section-title">
                 申込基本情報
-                <span className="warning-text">※現在入力できません</span>
               </h2>
             </label>
           </div>
