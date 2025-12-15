@@ -302,12 +302,12 @@ class PDFGeneratorV5 {
         roomNumber: { x: 465, y: 570 }
       };
       
-      // 商品④いえらぶ安心サポートの座標
+      // 商品④いえらぶ安心サポートの座標 (2025-12-15更新)
       const coords4 = {
-        address: { x: 153, y: 530 },
-        propertyName: { x: 153, y: 495 },
-        propertyKana: { x: 153, y: 510 },
-        roomNumber: { x: 465, y: 495 }
+        address: { x: 153, y: 530 },      // 住所
+        propertyName: { x: 153, y: 495 }, // 物件名
+        propertyKana: { x: 153, y: 510 }, // 物件名フリガナ
+        roomNumber: { x: 465, y: 495 }    // 号室
       };
       
       // 使用する座標を選択
