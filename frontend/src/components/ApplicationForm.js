@@ -559,47 +559,6 @@ const ApplicationForm = () => {
             <div className="accordion-content">
               <div className="form-row">
                 <label className="form-label">
-                  申込種別
-                </label>
-                <div className="radio-group">
-                  <label className="radio-label">
-                    <input
-                      type="radio"
-                      name="applicationType"
-                      value="new"
-                      checked={formData.applicationType === 'new'}
-                      onChange={handleInputChange}
-                    />
-                    新規
-                  </label>
-                  <label className="radio-label">
-                    <input
-                      type="radio"
-                      name="applicationType"
-                      value="renewal"
-                      checked={formData.applicationType === 'renewal'}
-                      onChange={handleInputChange}
-                    />
-                    更新
-                  </label>
-                </div>
-              </div>
-
-              <div className="form-row">
-                <label className="form-label">
-                  お申込日
-                </label>
-                <input
-                  type="date"
-                  name="applicationDate"
-                  value={formData.applicationDate}
-                  onChange={handleInputChange}
-                  className="form-input"
-                />
-              </div>
-
-              <div className="form-row">
-                <label className="form-label">
                   お申込者様名
                 </label>
                 <input
