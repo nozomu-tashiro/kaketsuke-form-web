@@ -464,6 +464,83 @@ const ApplicationForm = () => {
           </div>
         </section>
 
+        {/* 対象物件情報 */}
+        <section className="form-section">
+          <div className="accordion-header">
+            <label className="accordion-label">
+              <input
+                type="checkbox"
+                checked={accordionState.property}
+                onChange={() => toggleAccordion('property')}
+              />
+              <h2 className="section-title">
+                対象物件情報
+                <span className="warning-text">※入力しても印字できません。</span>
+              </h2>
+            </label>
+          </div>
+          
+          {accordionState.property && (
+            <div className="accordion-content">
+              <div className="form-row">
+                <label className="form-label">
+                  住所
+                </label>
+                <input
+                  type="text"
+                  name="propertyAddress"
+                  value={formData.propertyAddress}
+                  onChange={handleInputChange}
+                  className="form-input"
+                  placeholder="東京都渋谷区〇〇1-2-3"
+                />
+              </div>
+
+              <div className="form-row">
+                <label className="form-label">
+                  物件名
+                </label>
+                <input
+                  type="text"
+                  name="propertyName"
+                  value={formData.propertyName}
+                  onChange={handleInputChange}
+                  className="form-input"
+                  placeholder="いえらぶマンション"
+                />
+              </div>
+
+              <div className="form-row">
+                <label className="form-label">
+                  物件名フリガナ
+                </label>
+                <input
+                  type="text"
+                  name="propertyNameKana"
+                  value={formData.propertyNameKana}
+                  onChange={handleInputChange}
+                  className="form-input"
+                  placeholder="イエラブマンション"
+                />
+              </div>
+
+              <div className="form-row">
+                <label className="form-label">
+                  号室
+                </label>
+                <input
+                  type="text"
+                  name="roomNumber"
+                  value={formData.roomNumber}
+                  onChange={handleInputChange}
+                  className="form-input"
+                  placeholder="101"
+                />
+              </div>
+            </div>
+          )}
+        </section>
+
         {/* 申込基本情報 */}
         <section className="form-section">
           <div className="accordion-header">
@@ -699,83 +776,6 @@ const ApplicationForm = () => {
               >
                 + 入居者・同居人を追加
               </button>
-            </div>
-          )}
-        </section>
-
-        {/* 対象物件情報 */}
-        <section className="form-section">
-          <div className="accordion-header">
-            <label className="accordion-label">
-              <input
-                type="checkbox"
-                checked={accordionState.property}
-                onChange={() => toggleAccordion('property')}
-              />
-              <h2 className="section-title">
-                対象物件情報
-                <span className="warning-text">※入力しても印字できません。</span>
-              </h2>
-            </label>
-          </div>
-          
-          {accordionState.property && (
-            <div className="accordion-content">
-              <div className="form-row">
-                <label className="form-label">
-                  住所
-                </label>
-                <input
-                  type="text"
-                  name="propertyAddress"
-                  value={formData.propertyAddress}
-                  onChange={handleInputChange}
-                  className="form-input"
-                  placeholder="東京都渋谷区〇〇1-2-3"
-                />
-              </div>
-
-              <div className="form-row">
-                <label className="form-label">
-                  物件名
-                </label>
-                <input
-                  type="text"
-                  name="propertyName"
-                  value={formData.propertyName}
-                  onChange={handleInputChange}
-                  className="form-input"
-                  placeholder="いえらぶマンション"
-                />
-              </div>
-
-              <div className="form-row">
-                <label className="form-label">
-                  物件名フリガナ
-                </label>
-                <input
-                  type="text"
-                  name="propertyNameKana"
-                  value={formData.propertyNameKana}
-                  onChange={handleInputChange}
-                  className="form-input"
-                  placeholder="イエラブマンション"
-                />
-              </div>
-
-              <div className="form-row">
-                <label className="form-label">
-                  号室
-                </label>
-                <input
-                  type="text"
-                  name="roomNumber"
-                  value={formData.roomNumber}
-                  onChange={handleInputChange}
-                  className="form-input"
-                  placeholder="101"
-                />
-              </div>
             </div>
           )}
         </section>
