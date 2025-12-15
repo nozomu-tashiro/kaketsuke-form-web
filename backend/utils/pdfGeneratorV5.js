@@ -430,7 +430,7 @@ class PDFGeneratorV5 {
           
           // 生年月日（DD）
           page.drawText(day, {
-            x: 325,
+            x: 320,
             y: 640,
             size: fontSize.large, // 12pt
             font: font,
@@ -452,7 +452,7 @@ class PDFGeneratorV5 {
       } else if (gender === 'female') {
         // 女性の場合
         page.drawText('✓', {
-          x: 493,
+          x: 510,
           y: 640,
           size: 13, // 13pt
           font: font,
