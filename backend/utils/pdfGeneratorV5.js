@@ -286,47 +286,45 @@ class PDFGeneratorV5 {
       const printPropertyInfo = selectedProduct !== 'ierabu-anshin-support';
       
       if (printPropertyInfo) {
-        const propertyFontSize = fontSize.large; // 12pt
-        
-        // 住所: X=153, Y=590
+        // 住所: X=153, Y=630, フォントサイズ=12pt
         if (propertyAddress) {
           page.drawText(propertyAddress, {
             x: 153,
-            y: 590,
-            size: propertyFontSize,
+            y: 630,
+            size: fontSize.large, // 12pt
             font: font,
             color: rgb(0, 0, 0)
           });
         }
         
-        // 物件名: X=153, Y=570
+        // 物件名: X=153, Y=570, フォントサイズ=12pt
         if (propertyName) {
           page.drawText(propertyName, {
             x: 153,
             y: 570,
-            size: propertyFontSize,
+            size: fontSize.large, // 12pt
             font: font,
             color: rgb(0, 0, 0)
           });
         }
         
-        // 物件名フリガナ: X=153, Y=550
+        // 物件名フリガナ: X=153, Y=575, フォントサイズ=10pt
         if (propertyNameKana) {
           page.drawText(propertyNameKana, {
             x: 153,
-            y: 550,
-            size: propertyFontSize,
+            y: 575,
+            size: fontSize.medium, // 10pt
             font: font,
             color: rgb(0, 0, 0)
           });
         }
         
-        // 号室: X=455, Y=550
+        // 号室: X=465, Y=550, フォントサイズ=12pt
         if (roomNumber) {
           page.drawText(roomNumber, {
-            x: 455,
+            x: 465,
             y: 550,
-            size: propertyFontSize,
+            size: fontSize.large, // 12pt
             font: font,
             color: rgb(0, 0, 0)
           });
