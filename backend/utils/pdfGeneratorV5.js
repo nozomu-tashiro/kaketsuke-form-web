@@ -304,10 +304,10 @@ class PDFGeneratorV5 {
       
       // 商品④いえらぶ安心サポートの座標 (2025-12-15更新)
       const coords4 = {
-        address: { x: 153, y: 530 },      // 住所
-        propertyName: { x: 153, y: 495 }, // 物件名
-        propertyKana: { x: 153, y: 510 }, // 物件名フリガナ
-        roomNumber: { x: 465, y: 495 }    // 号室
+        address: { x: 153, y: 520 },      // 住所
+        propertyName: { x: 153, y: 485 }, // 物件名
+        propertyKana: { x: 153, y: 500 }, // 物件名フリガナ
+        roomNumber: { x: 465, y: 485 }    // 号室
       };
       
       // 使用する座標を選択
