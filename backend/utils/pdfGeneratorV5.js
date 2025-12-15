@@ -121,11 +121,11 @@ class PDFGeneratorV5 {
       // - フリガナ、固定電話、氏名、携帯電話
       // - 生年月日、性別
       // - 申込者住所
-      // - 対象物件（物件名フリガナ、物件名、号室）
       // - 入居者・同居人情報
       // - サービス期間（開始日）
       //
       // 印字する項目:
+      // - 物件情報（住所、物件名、物件名フリガナ、号室）※商品①②③のみ
       // - オプションサービスのチェックマーク
       // - 保証番号
       // - 代理店情報
@@ -279,6 +279,58 @@ class PDFGeneratorV5 {
           font: font,
           color: rgb(0, 0, 0)
         });
+      }
+      
+      // === 物件情報 ===
+      // 商品①②③の場合のみ印字（④いえらぶ安心サポートは除外）
+      const printPropertyInfo = selectedProduct !== 'ierabu-anshin-support';
+      
+      if (printPropertyInfo) {
+        const propertyFontSize = fontSize.large; // 12pt
+        
+        // 住所: X=153, Y=590
+        if (propertyAddress) {
+          page.drawText(propertyAddress, {
+            x: 153,
+            y: 590,
+            size: propertyFontSize,
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+        }
+        
+        // 物件名: X=153, Y=570
+        if (propertyName) {
+          page.drawText(propertyName, {
+            x: 153,
+            y: 570,
+            size: propertyFontSize,
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+        }
+        
+        // 物件名フリガナ: X=153, Y=550
+        if (propertyNameKana) {
+          page.drawText(propertyNameKana, {
+            x: 153,
+            y: 550,
+            size: propertyFontSize,
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+        }
+        
+        // 号室: X=455, Y=550
+        if (roomNumber) {
+          page.drawText(roomNumber, {
+            x: 455,
+            y: 550,
+            size: propertyFontSize,
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+        }
       }
       
       // === 代理店情報 ===
