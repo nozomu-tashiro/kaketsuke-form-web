@@ -282,53 +282,70 @@ class PDFGeneratorV5 {
       }
       
       // === 物件情報 ===
-      // 商品①②③の場合のみ印字（④いえらぶ安心サポートは除外）
-      const printPropertyInfo = selectedProduct !== 'ierabu-anshin-support';
+      // 商品によって座標が異なる
+      const isIerabuForProperty = selectedProduct === 'ierabu-anshin-support';
       
-      if (printPropertyInfo) {
-        // 住所: X=153, Y=605, フォントサイズ=12pt
-        if (propertyAddress) {
-          page.drawText(propertyAddress, {
-            x: 153,
-            y: 605,
-            size: fontSize.large, // 12pt
-            font: font,
-            color: rgb(0, 0, 0)
-          });
-        }
-        
-        // 物件名: X=153, Y=570, フォントサイズ=12pt
-        if (propertyName) {
-          page.drawText(propertyName, {
-            x: 153,
-            y: 570,
-            size: fontSize.large, // 12pt
-            font: font,
-            color: rgb(0, 0, 0)
-          });
-        }
-        
-        // 物件名フリガナ: X=153, Y=585, フォントサイズ=10pt
-        if (propertyNameKana) {
-          page.drawText(propertyNameKana, {
-            x: 153,
-            y: 585,
-            size: fontSize.medium, // 10pt
-            font: font,
-            color: rgb(0, 0, 0)
-          });
-        }
-        
-        // 号室: X=465, Y=570, フォントサイズ=12pt
-        if (roomNumber) {
-          page.drawText(roomNumber, {
-            x: 465,
-            y: 570,
-            size: fontSize.large, // 12pt
-            font: font,
-            color: rgb(0, 0, 0)
-          });
-        }
+      // 商品①②③の座標
+      const coords123 = {
+        address: { x: 153, y: 605 },
+        propertyName: { x: 153, y: 570 },
+        propertyKana: { x: 153, y: 585 },
+        roomNumber: { x: 465, y: 570 }
+      };
+      
+      // 商品④いえらぶ安心サポートの座標
+      const coords4 = {
+        address: { x: 153, y: 500 },
+        propertyName: { x: 153, y: 465 },
+        propertyKana: { x: 153, y: 480 },
+        roomNumber: { x: 465, y: 465 }
+      };
+      
+      // 使用する座標を選択
+      const coords = isIerabuForProperty ? coords4 : coords123;
+      
+      // 住所
+      if (propertyAddress) {
+        page.drawText(propertyAddress, {
+          x: coords.address.x,
+          y: coords.address.y,
+          size: fontSize.large, // 12pt
+          font: font,
+          color: rgb(0, 0, 0)
+        });
+      }
+      
+      // 物件名
+      if (propertyName) {
+        page.drawText(propertyName, {
+          x: coords.propertyName.x,
+          y: coords.propertyName.y,
+          size: fontSize.large, // 12pt
+          font: font,
+          color: rgb(0, 0, 0)
+        });
+      }
+      
+      // 物件名フリガナ
+      if (propertyNameKana) {
+        page.drawText(propertyNameKana, {
+          x: coords.propertyKana.x,
+          y: coords.propertyKana.y,
+          size: fontSize.medium, // 10pt
+          font: font,
+          color: rgb(0, 0, 0)
+        });
+      }
+      
+      // 号室
+      if (roomNumber) {
+        page.drawText(roomNumber, {
+          x: coords.roomNumber.x,
+          y: coords.roomNumber.y,
+          size: fontSize.large, // 12pt
+          font: font,
+          color: rgb(0, 0, 0)
+        });
       }
       
       // === 代理店情報 ===
