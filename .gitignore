@@ -1,6 +1,6 @@
 # Dependencies
 node_modules/
-package-lock.json
+# package-lock.json をコミット対象に含める
 frontend/node_modules/
 backend/node_modules/
 
