@@ -363,8 +363,8 @@ class PDFGeneratorV5 {
       // お申込者様名
       if (applicantName) {
         page.drawText(applicantName, {
-          x: 135,
-          y: 705,
+          x: 125,
+          y: 675,
           size: fontSize.large, // 12pt
           font: font,
           color: rgb(0, 0, 0)
@@ -374,7 +374,7 @@ class PDFGeneratorV5 {
       // フリガナ
       if (applicantNameKana) {
         page.drawText(applicantNameKana, {
-          x: 135,
+          x: 125,
           y: 690,
           size: fontSize.medium, // 10pt
           font: font,
@@ -386,7 +386,7 @@ class PDFGeneratorV5 {
       if (mobilePhone) {
         page.drawText(mobilePhone, {
           x: 430,
-          y: 700,
+          y: 690,
           size: fontSize.large, // 12pt
           font: font,
           color: rgb(0, 0, 0)
@@ -397,7 +397,7 @@ class PDFGeneratorV5 {
       if (homePhone) {
         page.drawText(homePhone, {
           x: 430,
-          y: 680,
+          y: 675,
           size: fontSize.large, // 12pt
           font: font,
           color: rgb(0, 0, 0)
@@ -412,8 +412,8 @@ class PDFGeneratorV5 {
           
           // 生年月日（YYYY）
           page.drawText(year, {
-            x: 200,
-            y: 655,
+            x: 210,
+            y: 635,
             size: fontSize.large, // 12pt
             font: font,
             color: rgb(0, 0, 0)
@@ -421,8 +421,8 @@ class PDFGeneratorV5 {
           
           // 生年月日（MM）
           page.drawText(month, {
-            x: 230,
-            y: 655,
+            x: 280,
+            y: 635,
             size: fontSize.large, // 12pt
             font: font,
             color: rgb(0, 0, 0)
@@ -430,8 +430,8 @@ class PDFGeneratorV5 {
           
           // 生年月日（DD）
           page.drawText(day, {
-            x: 260,
-            y: 655,
+            x: 350,
+            y: 635,
             size: fontSize.large, // 12pt
             font: font,
             color: rgb(0, 0, 0)
@@ -443,8 +443,8 @@ class PDFGeneratorV5 {
       if (gender === 'male') {
         // 男性の場合
         page.drawText('✓', {
-          x: 475,
-          y: 655,
+          x: 477,
+          y: 635,
           size: fontSize.large, // 12pt
           font: font,
           color: rgb(0, 0, 0)
@@ -452,8 +452,8 @@ class PDFGeneratorV5 {
       } else if (gender === 'female') {
         // 女性の場合
         page.drawText('✓', {
-          x: 490,
-          y: 655,
+          x: 493,
+          y: 635,
           size: 13, // 13pt
           font: font,
           color: rgb(0, 0, 0)
