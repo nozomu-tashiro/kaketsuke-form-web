@@ -713,10 +713,10 @@ class PDFGeneratorV5 {
           
           // お名前
           if (resident1.name && resident1.name.trim() !== '' && resident1.name !== '未入力') {
-            const nameText = this.fitTextInBox(resident1.name, 100, fontSize.large, font);
+            const nameText = this.fitTextInBox(resident1.name, 150, fontSize.large, font);
             page.drawText(nameText, {
               x: 153,
-              y: 595,
+              y: 600,
               size: fontSize.large, // 12pt
               font: font,
               color: rgb(0, 0, 0)
@@ -725,10 +725,10 @@ class PDFGeneratorV5 {
           
           // フリガナ
           if (resident1.nameKana && resident1.nameKana.trim() !== '' && resident1.nameKana !== '未入力') {
-            const kanaText = this.fitTextInBox(resident1.nameKana, 90, fontSize.medium, font);
+            const kanaText = this.fitTextInBox(resident1.nameKana, 150, fontSize.medium, font);
             page.drawText(kanaText, {
               x: 153,
-              y: 615,
+              y: 617,
               size: fontSize.medium, // 10pt
               font: font,
               color: rgb(0, 0, 0)
@@ -737,11 +737,11 @@ class PDFGeneratorV5 {
           
           // 続柄
           if (resident1.relationship && resident1.relationship.trim() !== '' && resident1.relationship !== '未入力') {
-            const relText = this.fitTextInBox(resident1.relationship, 30, 8, font);
+            const relText = this.fitTextInBox(resident1.relationship, 50, fontSize.medium, font);
             page.drawText(relText, {
               x: 463,
               y: 600,
-              size: 8, // 8pt
+              size: fontSize.medium, // 10pt
               font: font,
               color: rgb(0, 0, 0)
             });
@@ -754,10 +754,10 @@ class PDFGeneratorV5 {
           
           // お名前
           if (resident2.name && resident2.name.trim() !== '' && resident2.name !== '未入力') {
-            const nameText = this.fitTextInBox(resident2.name, 100, fontSize.large, font);
+            const nameText = this.fitTextInBox(resident2.name, 150, fontSize.large, font);
             page.drawText(nameText, {
               x: 153,
-              y: 570,
+              y: 565,
               size: fontSize.large, // 12pt
               font: font,
               color: rgb(0, 0, 0)
@@ -766,10 +766,10 @@ class PDFGeneratorV5 {
           
           // フリガナ
           if (resident2.nameKana && resident2.nameKana.trim() !== '' && resident2.nameKana !== '未入力') {
-            const kanaText = this.fitTextInBox(resident2.nameKana, 90, fontSize.medium, font);
+            const kanaText = this.fitTextInBox(resident2.nameKana, 150, fontSize.medium, font);
             page.drawText(kanaText, {
               x: 153,
-              y: 585,
+              y: 575,
               size: fontSize.medium, // 10pt
               font: font,
               color: rgb(0, 0, 0)
@@ -778,11 +778,11 @@ class PDFGeneratorV5 {
           
           // 続柄
           if (resident2.relationship && resident2.relationship.trim() !== '' && resident2.relationship !== '未入力') {
-            const relText = this.fitTextInBox(resident2.relationship, 30, 8, font);
+            const relText = this.fitTextInBox(resident2.relationship, 50, fontSize.medium, font);
             page.drawText(relText, {
               x: 463,
-              y: 580,
-              size: 8, // 8pt
+              y: 560,
+              size: fontSize.medium, // 10pt
               font: font,
               color: rgb(0, 0, 0)
             });
