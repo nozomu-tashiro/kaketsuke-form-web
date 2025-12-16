@@ -721,11 +721,9 @@ const ApplicationForm = () => {
                 type="checkbox"
                 checked={accordionState.residents}
                 onChange={() => toggleAccordion('residents')}
-                disabled
               />
               <h2 className="section-title">
                 入居者・同居人情報
-                <span className="warning-text">※現在入力できません</span>
               </h2>
             </label>
           </div>
