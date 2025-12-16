@@ -214,7 +214,6 @@ class PDFGeneratorV5 {
       // 商品①②③で支払方法が【年払】または【月払】の場合に印字
       // 商品④いえらぶ安心サポートの場合も印字（座標が異なる）
       const isProducts123 = ['anshin-support-24', 'home-assist-24', 'anshin-full-support'].includes(selectedProduct);
-      const isProduct4 = selectedProduct === 'ierabu-anshin-support';
       const isYearlyPayment = paymentMethod && paymentMethod.startsWith('yearly');
       const isMonthlyPayment = paymentMethod === 'monthly';
       
@@ -226,7 +225,7 @@ class PDFGeneratorV5 {
           let coords;
           
           // 商品④いえらぶ安心サポートの座標
-          if (isProduct4) {
+          if (selectedProduct === 'ierabu-anshin-support') {
             coords = {
               year: { x: 183, y: 455 },
               month: { x: 240, y: 455 },
