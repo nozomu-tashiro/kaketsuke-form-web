@@ -725,7 +725,7 @@ class PDFGeneratorV5 {
           const kanaText = this.fitTextInBox(emergencyContact.nameKana, 165, fontSize.medium, font);
           page.drawText(kanaText, {
             x: 153,
-            y: 420,
+            y: 415,
             size: fontSize.medium, // 10pt
             font: font,
             color: rgb(0, 0, 0)
