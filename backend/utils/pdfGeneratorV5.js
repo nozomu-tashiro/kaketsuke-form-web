@@ -713,7 +713,7 @@ class PDFGeneratorV5 {
           const nameText = this.fitTextInBox(emergencyContact.name, 165, fontSize.large, font);
           page.drawText(nameText, {
             x: 153,
-            y: 430,
+            y: 400,
             size: fontSize.large, // 12pt
             font: font,
             color: rgb(0, 0, 0)
@@ -725,7 +725,7 @@ class PDFGeneratorV5 {
           const kanaText = this.fitTextInBox(emergencyContact.nameKana, 165, fontSize.medium, font);
           page.drawText(kanaText, {
             x: 153,
-            y: 450,
+            y: 410,
             size: fontSize.medium, // 10pt
             font: font,
             color: rgb(0, 0, 0)
@@ -737,7 +737,7 @@ class PDFGeneratorV5 {
           const addressText = this.fitTextInBox(emergencyContact.address, 200, fontSize.large, font);
           page.drawText(addressText, {
             x: 153,
-            y: 400,
+            y: 370,
             size: fontSize.large, // 12pt
             font: font,
             color: rgb(0, 0, 0)
@@ -749,7 +749,7 @@ class PDFGeneratorV5 {
           const homePhoneText = this.fitTextInBox(emergencyContact.homePhone, 105, fontSize.large, font);
           page.drawText(homePhoneText, {
             x: 430,
-            y: 460,
+            y: 410,
             size: fontSize.large, // 12pt
             font: font,
             color: rgb(0, 0, 0)
@@ -761,7 +761,7 @@ class PDFGeneratorV5 {
           const mobilePhoneText = this.fitTextInBox(emergencyContact.mobilePhone, 105, fontSize.large, font);
           page.drawText(mobilePhoneText, {
             x: 430,
-            y: 410,
+            y: 390,
             size: fontSize.large, // 12pt
             font: font,
             color: rgb(0, 0, 0)
@@ -773,7 +773,7 @@ class PDFGeneratorV5 {
           const relText = this.fitTextInBox(emergencyContact.relationship, 30, 8, font);
           page.drawText(relText, {
             x: 520,
-            y: 390,
+            y: 370,
             size: 8, // 8pt
             font: font,
             color: rgb(0, 0, 0)
