@@ -702,6 +702,94 @@ class PDFGeneratorV5 {
         }
       }
       
+      // === 商品④専用：入居者・同居人情報 ===
+      // いえらぶ安心サポート（④）選択時のみ、異なる座標で印字
+      const isProduct4 = selectedProduct === 'ierabu-anshin-support';
+      
+      if (isProduct4 && residents && residents.length > 0) {
+        // 入居者・同居人情報1（商品④専用座標）
+        if (residents[0]) {
+          const resident1 = residents[0];
+          
+          // お名前
+          if (resident1.name && resident1.name.trim() !== '' && resident1.name !== '未入力') {
+            const nameText = this.fitTextInBox(resident1.name, 100, fontSize.large, font);
+            page.drawText(nameText, {
+              x: 153,
+              y: 595,
+              size: fontSize.large, // 12pt
+              font: font,
+              color: rgb(0, 0, 0)
+            });
+          }
+          
+          // フリガナ
+          if (resident1.nameKana && resident1.nameKana.trim() !== '' && resident1.nameKana !== '未入力') {
+            const kanaText = this.fitTextInBox(resident1.nameKana, 90, fontSize.medium, font);
+            page.drawText(kanaText, {
+              x: 153,
+              y: 615,
+              size: fontSize.medium, // 10pt
+              font: font,
+              color: rgb(0, 0, 0)
+            });
+          }
+          
+          // 続柄
+          if (resident1.relationship && resident1.relationship.trim() !== '' && resident1.relationship !== '未入力') {
+            const relText = this.fitTextInBox(resident1.relationship, 30, 8, font);
+            page.drawText(relText, {
+              x: 463,
+              y: 600,
+              size: 8, // 8pt
+              font: font,
+              color: rgb(0, 0, 0)
+            });
+          }
+        }
+        
+        // 入居者・同居人情報2（商品④専用座標）
+        if (residents[1]) {
+          const resident2 = residents[1];
+          
+          // お名前
+          if (resident2.name && resident2.name.trim() !== '' && resident2.name !== '未入力') {
+            const nameText = this.fitTextInBox(resident2.name, 100, fontSize.large, font);
+            page.drawText(nameText, {
+              x: 153,
+              y: 570,
+              size: fontSize.large, // 12pt
+              font: font,
+              color: rgb(0, 0, 0)
+            });
+          }
+          
+          // フリガナ
+          if (resident2.nameKana && resident2.nameKana.trim() !== '' && resident2.nameKana !== '未入力') {
+            const kanaText = this.fitTextInBox(resident2.nameKana, 90, fontSize.medium, font);
+            page.drawText(kanaText, {
+              x: 153,
+              y: 585,
+              size: fontSize.medium, // 10pt
+              font: font,
+              color: rgb(0, 0, 0)
+            });
+          }
+          
+          // 続柄
+          if (resident2.relationship && resident2.relationship.trim() !== '' && resident2.relationship !== '未入力') {
+            const relText = this.fitTextInBox(resident2.relationship, 30, 8, font);
+            page.drawText(relText, {
+              x: 463,
+              y: 580,
+              size: 8, // 8pt
+              font: font,
+              color: rgb(0, 0, 0)
+            });
+          }
+        }
+      }
+      
       // === 緊急連絡先情報 ===
       // 商品①②③の場合のみ印字
       // いえらぶ安心サポート（④）の場合は印字しない
