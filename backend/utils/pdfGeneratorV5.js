@@ -757,7 +757,7 @@ class PDFGeneratorV5 {
             const nameText = this.fitTextInBox(resident2.name, 150, fontSize.large, font);
             page.drawText(nameText, {
               x: 153,
-              y: 565,
+              y: 560,
               size: fontSize.large, // 12pt
               font: font,
               color: rgb(0, 0, 0)
