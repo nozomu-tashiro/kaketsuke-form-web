@@ -152,6 +152,27 @@
   color: #999;
 }
 
+/* Service Period Display */
+.service-period-display {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-top: 0.5rem;
+}
+
+.service-period-display p {
+  margin: 0;
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+.service-period-display .placeholder-text {
+  color: #999;
+  font-style: italic;
+}
+
 /* Radio buttons */
 .radio-group {
   display: flex;

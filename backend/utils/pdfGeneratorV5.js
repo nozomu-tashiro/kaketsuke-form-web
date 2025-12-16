@@ -184,7 +184,8 @@ class PDFGeneratorV5 {
       // いえらぶ安心サポート: X=430, Y=443（サービス期間の行の右側）
       // 月払（その他）: X=430, Y=448
       // 年払（その他）: X=445, Y=485
-      if (guaranteeNumber) {
+      // （値がない場合や「未入力」の場合は印字しない）
+      if (guaranteeNumber && guaranteeNumber.trim() !== '' && guaranteeNumber !== '未入力') {
         const isIerabuProduct = selectedProduct === 'ierabu-anshin-support';
         const isYearlyPayment = paymentMethod && paymentMethod.startsWith('yearly');
         
@@ -211,8 +212,9 @@ class PDFGeneratorV5 {
       // === サービス提供価格（月払の場合のみ印字） ===
       // 月払を選択したときのみ「サービス提供価格（円/税込）/毎月」に印字
       // ただし、いえらぶ安心サポート選択時は印字しない
+      // （値がない場合や「未入力」の場合は印字しない）
       const isIerabuProduct = selectedProduct === 'ierabu-anshin-support';
-      if (servicePrice && paymentMethod === 'monthly' && !isIerabuProduct) {
+      if (servicePrice && servicePrice.trim() !== '' && servicePrice !== '未入力' && paymentMethod === 'monthly' && !isIerabuProduct) {
         page.drawText(servicePrice, {
           x: 160,
           y: 465,
@@ -226,8 +228,9 @@ class PDFGeneratorV5 {
       // 年払（yearly-1 または yearly-2）を選択したときのみ印字
       // 【更新時】運営会社（いえらぶ）にて更新案内する場合：更新時ご請求額
       // ただし、いえらぶ安心サポート選択時は印字しない
+      // （値がない場合や「未入力」の場合は印字しない）
       const isYearly = paymentMethod && paymentMethod.startsWith('yearly');
-      if (servicePrice && isYearly && !isIerabuProduct) {
+      if (servicePrice && servicePrice.trim() !== '' && servicePrice !== '未入力' && isYearly && !isIerabuProduct) {
         page.drawText(servicePrice, {
           x: 430,
           y: 83,
@@ -243,8 +246,8 @@ class PDFGeneratorV5 {
       // === 契約者情報 ===
       const contractorY = height - 625;
       
-      // 契約者名（フリガナ）
-      if (formData.contractorNameKana) {
+      // 契約者名（フリガナ）（値がない場合や「未入力」の場合は印字しない）
+      if (formData.contractorNameKana && formData.contractorNameKana.trim() !== '' && formData.contractorNameKana !== '未入力') {
         const kanaText = this.fitTextInBox(formData.contractorNameKana, 270, fontSize.small, font);
         page.drawText(kanaText, {
           x: 135,
@@ -255,8 +258,8 @@ class PDFGeneratorV5 {
         });
       }
       
-      // 契約者名
-      if (formData.contractorName) {
+      // 契約者名（値がない場合や「未入力」の場合は印字しない）
+      if (formData.contractorName && formData.contractorName.trim() !== '' && formData.contractorName !== '未入力') {
         const nameText = this.fitTextInBox(formData.contractorName, 270, fontSize.normal, font);
         page.drawText(nameText, {
           x: 135,
@@ -267,8 +270,8 @@ class PDFGeneratorV5 {
         });
       }
       
-      // 変更届（変更事項）
-      if (formData.changeDetails) {
+      // 変更届（変更事項）（値がない場合や「未入力」の場合は印字しない）
+      if (formData.changeDetails && formData.changeDetails.trim() !== '' && formData.changeDetails !== '未入力') {
         const changeText = this.fitTextInBox(formData.changeDetails, 290, fontSize.small, font);
         page.drawText(changeText, {
           x: 335,
@@ -279,8 +282,8 @@ class PDFGeneratorV5 {
         });
       }
       
-      // 担当者名
-      if (formData.staffName) {
+      // 担当者名（値がない場合や「未入力」の場合は印字しない）
+      if (formData.staffName && formData.staffName.trim() !== '' && formData.staffName !== '未入力') {
         page.drawText(formData.staffName, {
           x: 483,
           y: contractorY - 17,
@@ -302,7 +305,7 @@ class PDFGeneratorV5 {
         roomNumber: { x: 465, y: 570 }
       };
       
-      // 商品④いえらぶ安心サポートの座標
+      // 商品④いえらぶ安心サポートの座標 (2025-12-15更新)
       const coords4 = {
         address: { x: 153, y: 530 },
         propertyName: { x: 153, y: 495 },
@@ -313,8 +316,8 @@ class PDFGeneratorV5 {
       // 使用する座標を選択
       const coords = isIerabuForProperty ? coords4 : coords123;
       
-      // 住所
-      if (propertyAddress) {
+      // 住所（値がない場合や「未入力」の場合は印字しない）
+      if (propertyAddress && propertyAddress.trim() !== '' && propertyAddress !== '未入力') {
         page.drawText(propertyAddress, {
           x: coords.address.x,
           y: coords.address.y,
@@ -324,8 +327,8 @@ class PDFGeneratorV5 {
         });
       }
       
-      // 物件名
-      if (propertyName) {
+      // 物件名（値がない場合や「未入力」の場合は印字しない）
+      if (propertyName && propertyName.trim() !== '' && propertyName !== '未入力') {
         page.drawText(propertyName, {
           x: coords.propertyName.x,
           y: coords.propertyName.y,
@@ -335,8 +338,8 @@ class PDFGeneratorV5 {
         });
       }
       
-      // 物件名フリガナ
-      if (propertyNameKana) {
+      // 物件名フリガナ（値がない場合や「未入力」の場合は印字しない）
+      if (propertyNameKana && propertyNameKana.trim() !== '' && propertyNameKana !== '未入力') {
         page.drawText(propertyNameKana, {
           x: coords.propertyKana.x,
           y: coords.propertyKana.y,
@@ -346,12 +349,115 @@ class PDFGeneratorV5 {
         });
       }
       
-      // 号室
-      if (roomNumber) {
+      // 号室（値がない場合や「未入力」の場合は印字しない）
+      if (roomNumber && roomNumber.trim() !== '' && roomNumber !== '未入力') {
         page.drawText(roomNumber, {
           x: coords.roomNumber.x,
           y: coords.roomNumber.y,
           size: fontSize.large, // 12pt
+          font: font,
+          color: rgb(0, 0, 0)
+        });
+      }
+      
+      // === 申込基本情報 ===
+      // 全商品共通の座標
+      
+      // お申込者様名（値がない場合や「未入力」の場合は印字しない）
+      if (applicantName && applicantName.trim() !== '' && applicantName !== '未入力') {
+        page.drawText(applicantName, {
+          x: 125,
+          y: 675,
+          size: fontSize.large, // 12pt
+          font: font,
+          color: rgb(0, 0, 0)
+        });
+      }
+      
+      // フリガナ（値がない場合や「未入力」の場合は印字しない）
+      if (applicantNameKana && applicantNameKana.trim() !== '' && applicantNameKana !== '未入力') {
+        page.drawText(applicantNameKana, {
+          x: 125,
+          y: 690,
+          size: fontSize.medium, // 10pt
+          font: font,
+          color: rgb(0, 0, 0)
+        });
+      }
+      
+      // 携帯番号（値がない場合や「未入力」の場合は印字しない）
+      if (mobilePhone && mobilePhone.trim() !== '' && mobilePhone !== '未入力') {
+        page.drawText(mobilePhone, {
+          x: 430,
+          y: 685,
+          size: fontSize.large, // 12pt
+          font: font,
+          color: rgb(0, 0, 0)
+        });
+      }
+      
+      // 固定番号（値がない場合や「未入力」の場合は印字しない）
+      if (homePhone && homePhone.trim() !== '' && homePhone !== '未入力') {
+        page.drawText(homePhone, {
+          x: 430,
+          y: 665,
+          size: fontSize.large, // 12pt
+          font: font,
+          color: rgb(0, 0, 0)
+        });
+      }
+      
+      // 生年月日を分割（YYYY/MM/DD形式を想定）
+      if (birthDate) {
+        const birthParts = birthDate.split('-'); // ISO形式: YYYY-MM-DD
+        if (birthParts.length === 3) {
+          const [year, month, day] = birthParts;
+          
+          // 生年月日（YYYY）
+          page.drawText(year, {
+            x: 215,
+            y: 640,
+            size: fontSize.large, // 12pt
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+          
+          // 生年月日（MM）
+          page.drawText(month, {
+            x: 278,
+            y: 640,
+            size: fontSize.large, // 12pt
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+          
+          // 生年月日（DD）
+          page.drawText(day, {
+            x: 320,
+            y: 640,
+            size: fontSize.large, // 12pt
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+        }
+      }
+      
+      // 性別（チェックマーク）
+      if (gender === 'male') {
+        // 男性の場合
+        page.drawText('✓', {
+          x: 477,
+          y: 640,
+          size: fontSize.large, // 12pt
+          font: font,
+          color: rgb(0, 0, 0)
+        });
+      } else if (gender === 'female') {
+        // 女性の場合
+        page.drawText('✓', {
+          x: 510,
+          y: 640,
+          size: 13, // 13pt
           font: font,
           color: rgb(0, 0, 0)
         });
@@ -372,7 +478,8 @@ class PDFGeneratorV5 {
       
       // Box 1: 販売店名
       // 通常: X=153, Y=140 / いえらぶ安心サポート: X=153, Y=102
-      if (agentInfo.name) {
+      // （値がない場合や「未入力」の場合は印字しない）
+      if (agentInfo.name && agentInfo.name.trim() !== '' && agentInfo.name !== '未入力') {
         const maxWidth = 105;
         const nameLines = this.splitTextIntoLines(agentInfo.name, maxWidth, agentFontSize, font);
         nameLines.forEach((line, index) => {
@@ -388,7 +495,8 @@ class PDFGeneratorV5 {
       
       // Box 2: 電話番号
       // 通常: X=153, Y=115 / いえらぶ安心サポート: X=153, Y=77
-      if (agentInfo.phone) {
+      // （値がない場合や「未入力」の場合は印字しない）
+      if (agentInfo.phone && agentInfo.phone.trim() !== '' && agentInfo.phone !== '未入力') {
         const maxWidth = 105;
         const phoneLines = this.splitTextIntoLines(agentInfo.phone, maxWidth, agentFontSize, font);
         phoneLines.forEach((line, index) => {
@@ -404,7 +512,8 @@ class PDFGeneratorV5 {
       
       // Box 3: 販売店コード
       // 通常: X=380, Y=140 / いえらぶ安心サポート: X=380, Y=102
-      if (agentInfo.code) {
+      // （値がない場合や「未入力」の場合は印字しない）
+      if (agentInfo.code && agentInfo.code.trim() !== '' && agentInfo.code !== '未入力') {
         const maxWidth = 160;
         const codeLines = this.splitTextIntoLines(agentInfo.code, maxWidth, agentFontSize, font);
         codeLines.forEach((line, index) => {
@@ -420,7 +529,8 @@ class PDFGeneratorV5 {
       
       // Box 4: 担当者名
       // 通常: X=380, Y=115 / いえらぶ安心サポート: X=380, Y=77
-      if (agentInfo.representativeName) {
+      // （値がない場合や「未入力」の場合は印字しない）
+      if (agentInfo.representativeName && agentInfo.representativeName.trim() !== '' && agentInfo.representativeName !== '未入力') {
         const maxWidth = 160;
         const repLines = this.splitTextIntoLines(agentInfo.representativeName, maxWidth, agentFontSize, font);
         repLines.forEach((line, index) => {
