@@ -212,37 +212,49 @@ class PDFGeneratorV5 {
 
       // === サービス期間開始日 ===
       // 商品①②③で支払方法が【年払】または【月払】の場合に印字
-      // いえらぶ安心サポート（④）の場合は印字しない
+      // 商品④いえらぶ安心サポートの場合も印字（座標が異なる）
       const isProducts123 = ['anshin-support-24', 'home-assist-24', 'anshin-full-support'].includes(selectedProduct);
+      const isProduct4 = selectedProduct === 'ierabu-anshin-support';
       const isYearlyPayment = paymentMethod && paymentMethod.startsWith('yearly');
       const isMonthlyPayment = paymentMethod === 'monthly';
       
-      if (servicePeriodStartDate && servicePeriodStartDate.trim() !== '' && servicePeriodStartDate !== '未入力' && isProducts123) {
+      if (servicePeriodStartDate && servicePeriodStartDate.trim() !== '' && servicePeriodStartDate !== '未入力') {
         const dateParts = servicePeriodStartDate.split('-'); // ISO形式: YYYY-MM-DD
         if (dateParts.length === 3) {
           const [year, month, day] = dateParts;
           
-          // 年払と月払で座標が異なる
           let coords;
-          if (isYearlyPayment) {
-            // 年払の座標
+          
+          // 商品④いえらぶ安心サポートの座標
+          if (isProduct4) {
             coords = {
-              year: { x: 153, y: 492 },
-              month: { x: 212, y: 492 },
-              day: { x: 252, y: 492 }
+              year: { x: 183, y: 455 },
+              month: { x: 240, y: 455 },
+              day: { x: 275, y: 455 }
             };
-          } else if (isMonthlyPayment) {
-            // 月払の座標
-            coords = {
-              year: { x: 278, y: 492, size: 14 },
-              month: { x: 325, y: 492, size: 14 },
-              day: { x: 367, y: 492, size: 14 }
-            };
+          }
+          // 商品①②③の座標（年払と月払で異なる）
+          else if (isProducts123) {
+            if (isYearlyPayment) {
+              // 年払の座標
+              coords = {
+                year: { x: 153, y: 492 },
+                month: { x: 212, y: 492 },
+                day: { x: 252, y: 492 }
+              };
+            } else if (isMonthlyPayment) {
+              // 月払の座標
+              coords = {
+                year: { x: 278, y: 492, size: 14 },
+                month: { x: 325, y: 492, size: 14 },
+                day: { x: 367, y: 492, size: 14 }
+              };
+            }
           }
           
           // 座標が設定されている場合のみ印字
           if (coords) {
-            // フォントサイズを取得（年払は12pt、月払は14pt）
+            // フォントサイズを取得（商品④と年払は12pt、月払は14pt）
             const textSize = coords.year.size || fontSize.large;
             
             // 開始日（YYYY）
