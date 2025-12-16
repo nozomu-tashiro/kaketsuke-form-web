@@ -613,6 +613,95 @@ class PDFGeneratorV5 {
         });
       }
 
+      // === 入居者・同居人情報 ===
+      // 商品①②③の場合のみ印字（最大2名まで）
+      // いえらぶ安心サポート（④）の場合は印字しない
+      const isProducts123ForResidents = ['anshin-support-24', 'home-assist-24', 'anshin-full-support'].includes(selectedProduct);
+      
+      if (isProducts123ForResidents && residents && residents.length > 0) {
+        // 入居者・同居人情報1
+        if (residents[0]) {
+          const resident1 = residents[0];
+          
+          // お名前
+          if (resident1.name && resident1.name.trim() !== '' && resident1.name !== '未入力') {
+            const nameText = this.fitTextInBox(resident1.name, 90, fontSize.large, font);
+            page.drawText(nameText, {
+              x: 153,
+              y: 520,
+              size: fontSize.large, // 12pt
+              font: font,
+              color: rgb(0, 0, 0)
+            });
+          }
+          
+          // フリガナ（お名前の上に印字）
+          if (resident1.nameKana && resident1.nameKana.trim() !== '' && resident1.nameKana !== '未入力') {
+            const kanaText = this.fitTextInBox(resident1.nameKana, 90, fontSize.medium, font);
+            page.drawText(kanaText, {
+              x: 153,
+              y: 535, // お名前の上（+15）
+              size: fontSize.medium, // 10pt
+              font: font,
+              color: rgb(0, 0, 0)
+            });
+          }
+          
+          // 続柄
+          if (resident1.relationship && resident1.relationship.trim() !== '' && resident1.relationship !== '未入力') {
+            const relText = this.fitTextInBox(resident1.relationship, 30, fontSize.large, font);
+            page.drawText(relText, {
+              x: 300,
+              y: 520,
+              size: fontSize.large, // 12pt
+              font: font,
+              color: rgb(0, 0, 0)
+            });
+          }
+        }
+        
+        // 入居者・同居人情報2
+        if (residents[1]) {
+          const resident2 = residents[1];
+          
+          // お名前
+          if (resident2.name && resident2.name.trim() !== '' && resident2.name !== '未入力') {
+            const nameText = this.fitTextInBox(resident2.name, 90, fontSize.large, font);
+            page.drawText(nameText, {
+              x: 380,
+              y: 520,
+              size: fontSize.large, // 12pt
+              font: font,
+              color: rgb(0, 0, 0)
+            });
+          }
+          
+          // フリガナ（お名前の上に印字）
+          if (resident2.nameKana && resident2.nameKana.trim() !== '' && resident2.nameKana !== '未入力') {
+            const kanaText = this.fitTextInBox(resident2.nameKana, 90, fontSize.medium, font);
+            page.drawText(kanaText, {
+              x: 380,
+              y: 535, // お名前の上（+15）
+              size: fontSize.medium, // 10pt
+              font: font,
+              color: rgb(0, 0, 0)
+            });
+          }
+          
+          // 続柄
+          if (resident2.relationship && resident2.relationship.trim() !== '' && resident2.relationship !== '未入力') {
+            const relText = this.fitTextInBox(resident2.relationship, 30, fontSize.large, font);
+            page.drawText(relText, {
+              x: 527,
+              y: 492,
+              size: fontSize.large, // 12pt
+              font: font,
+              color: rgb(0, 0, 0)
+            });
+          }
+        }
+      }
+
     } catch (error) {
       console.error(`ページ${pageIndex + 1}への印字エラー:`, error);
       throw error;
