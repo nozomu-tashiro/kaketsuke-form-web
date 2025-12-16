@@ -224,7 +224,7 @@ class PDFGeneratorV5 {
           // 開始日（YYYY）
           page.drawText(year, {
             x: 153,
-            y: 490,
+            y: 492,
             size: fontSize.large, // 12pt
             font: font,
             color: rgb(0, 0, 0)
@@ -232,8 +232,8 @@ class PDFGeneratorV5 {
           
           // 開始日（MM）
           page.drawText(month, {
-            x: 213,
-            y: 490,
+            x: 212,
+            y: 492,
             size: fontSize.large, // 12pt
             font: font,
             color: rgb(0, 0, 0)
@@ -241,8 +241,8 @@ class PDFGeneratorV5 {
           
           // 開始日（DD）
           page.drawText(day, {
-            x: 273,
-            y: 490,
+            x: 252,
+            y: 492,
             size: fontSize.large, // 12pt
             font: font,
             color: rgb(0, 0, 0)
