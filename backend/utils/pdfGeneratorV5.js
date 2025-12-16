@@ -210,43 +210,65 @@ class PDFGeneratorV5 {
         });
       }
 
-      // === サービス期間開始日（年払の場合のみ印字） ===
-      // 商品①②③で支払方法が【年払】の場合のみ印字
+      // === サービス期間開始日 ===
+      // 商品①②③で支払方法が【年払】または【月払】の場合に印字
       // いえらぶ安心サポート（④）の場合は印字しない
       const isProducts123 = ['anshin-support-24', 'home-assist-24', 'anshin-full-support'].includes(selectedProduct);
       const isYearlyPayment = paymentMethod && paymentMethod.startsWith('yearly');
+      const isMonthlyPayment = paymentMethod === 'monthly';
       
-      if (servicePeriodStartDate && servicePeriodStartDate.trim() !== '' && servicePeriodStartDate !== '未入力' && isProducts123 && isYearlyPayment) {
+      if (servicePeriodStartDate && servicePeriodStartDate.trim() !== '' && servicePeriodStartDate !== '未入力' && isProducts123) {
         const dateParts = servicePeriodStartDate.split('-'); // ISO形式: YYYY-MM-DD
         if (dateParts.length === 3) {
           const [year, month, day] = dateParts;
           
-          // 開始日（YYYY）
-          page.drawText(year, {
-            x: 153,
-            y: 492,
-            size: fontSize.large, // 12pt
-            font: font,
-            color: rgb(0, 0, 0)
-          });
+          // 年払と月払で座標が異なる
+          let coords;
+          if (isYearlyPayment) {
+            // 年払の座標
+            coords = {
+              year: { x: 153, y: 492 },
+              month: { x: 212, y: 492 },
+              day: { x: 252, y: 492 }
+            };
+          } else if (isMonthlyPayment) {
+            // 月払の座標
+            coords = {
+              year: { x: 278, y: 492 },
+              month: { x: 320, y: 492 },
+              day: { x: 362, y: 492 }
+            };
+          }
           
-          // 開始日（MM）
-          page.drawText(month, {
-            x: 212,
-            y: 492,
-            size: fontSize.large, // 12pt
-            font: font,
-            color: rgb(0, 0, 0)
-          });
-          
-          // 開始日（DD）
-          page.drawText(day, {
-            x: 252,
-            y: 492,
-            size: fontSize.large, // 12pt
-            font: font,
-            color: rgb(0, 0, 0)
-          });
+          // 座標が設定されている場合のみ印字
+          if (coords) {
+            // 開始日（YYYY）
+            page.drawText(year, {
+              x: coords.year.x,
+              y: coords.year.y,
+              size: fontSize.large, // 12pt
+              font: font,
+              color: rgb(0, 0, 0)
+            });
+            
+            // 開始日（MM）
+            page.drawText(month, {
+              x: coords.month.x,
+              y: coords.month.y,
+              size: fontSize.large, // 12pt
+              font: font,
+              color: rgb(0, 0, 0)
+            });
+            
+            // 開始日（DD）
+            page.drawText(day, {
+              x: coords.day.x,
+              y: coords.day.y,
+              size: fontSize.large, // 12pt
+              font: font,
+              color: rgb(0, 0, 0)
+            });
+          }
         }
       }
 
