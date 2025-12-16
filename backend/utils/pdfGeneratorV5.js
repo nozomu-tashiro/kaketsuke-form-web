@@ -701,6 +701,85 @@ class PDFGeneratorV5 {
           }
         }
       }
+      
+      // === 緊急連絡先情報 ===
+      // 商品①②③の場合のみ印字
+      // いえらぶ安心サポート（④）の場合は印字しない
+      const isProducts123ForEmergency = ['anshin-support-24', 'home-assist-24', 'anshin-full-support'].includes(selectedProduct);
+      
+      if (isProducts123ForEmergency && emergencyContact) {
+        // お名前
+        if (emergencyContact.name && emergencyContact.name.trim() !== '' && emergencyContact.name !== '未入力') {
+          const nameText = this.fitTextInBox(emergencyContact.name, 165, fontSize.large, font);
+          page.drawText(nameText, {
+            x: 153,
+            y: 430,
+            size: fontSize.large, // 12pt
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+        }
+        
+        // フリガナ
+        if (emergencyContact.nameKana && emergencyContact.nameKana.trim() !== '' && emergencyContact.nameKana !== '未入力') {
+          const kanaText = this.fitTextInBox(emergencyContact.nameKana, 165, fontSize.medium, font);
+          page.drawText(kanaText, {
+            x: 153,
+            y: 450,
+            size: fontSize.medium, // 10pt
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+        }
+        
+        // 住所
+        if (emergencyContact.address && emergencyContact.address.trim() !== '' && emergencyContact.address !== '未入力') {
+          const addressText = this.fitTextInBox(emergencyContact.address, 200, fontSize.large, font);
+          page.drawText(addressText, {
+            x: 153,
+            y: 400,
+            size: fontSize.large, // 12pt
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+        }
+        
+        // 固定番号
+        if (emergencyContact.homePhone && emergencyContact.homePhone.trim() !== '' && emergencyContact.homePhone !== '未入力') {
+          const homePhoneText = this.fitTextInBox(emergencyContact.homePhone, 105, fontSize.large, font);
+          page.drawText(homePhoneText, {
+            x: 430,
+            y: 460,
+            size: fontSize.large, // 12pt
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+        }
+        
+        // 携帯番号
+        if (emergencyContact.mobilePhone && emergencyContact.mobilePhone.trim() !== '' && emergencyContact.mobilePhone !== '未入力') {
+          const mobilePhoneText = this.fitTextInBox(emergencyContact.mobilePhone, 105, fontSize.large, font);
+          page.drawText(mobilePhoneText, {
+            x: 430,
+            y: 410,
+            size: fontSize.large, // 12pt
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+        }
+        
+        // 続柄
+        if (emergencyContact.relationship && emergencyContact.relationship.trim() !== '' && emergencyContact.relationship !== '未入力') {
+          const relText = this.fitTextInBox(emergencyContact.relationship, 30, 8, font);
+          page.drawText(relText, {
+            x: 520,
+            y: 390,
+            size: 8, // 8pt
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+        }
+      }
 
     } catch (error) {
       console.error(`ページ${pageIndex + 1}への印字エラー:`, error);
