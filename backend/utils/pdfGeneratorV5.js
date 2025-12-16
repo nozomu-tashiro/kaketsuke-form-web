@@ -408,7 +408,8 @@ class PDFGeneratorV5 {
       }
       
       // 生年月日を分割（YYYY/MM/DD形式を想定）
-      if (birthDate) {
+      // （値がない場合や「未入力」の場合は印字しない）
+      if (birthDate && birthDate.trim() !== '' && birthDate !== '未入力') {
         const birthParts = birthDate.split('-'); // ISO形式: YYYY-MM-DD
         if (birthParts.length === 3) {
           const [year, month, day] = birthParts;
@@ -443,6 +444,8 @@ class PDFGeneratorV5 {
       }
       
       // 性別（チェックマーク）
+      // 値が設定されている場合のみ印字（'male'または'female'）
+      // 空文字列の場合は印字しない
       if (gender === 'male') {
         // 男性の場合
         page.drawText('✓', {

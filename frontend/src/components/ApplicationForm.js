@@ -12,7 +12,7 @@ const ApplicationForm = () => {
     mobilePhone: '',
     homePhone: '',
     birthDate: '',
-    gender: 'male',
+    gender: '',
     residents: [],
     propertyAddress: '',
     propertyName: '',
