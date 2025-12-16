@@ -97,6 +97,7 @@ class PDFGeneratorV5 {
       selectedOptions = [],
       servicePrice = '',
       guaranteeNumber = '',
+      servicePeriodStartDate = '',
       emergencyContact = {},
       agentInfo = {},
       applicationDate = ''
@@ -207,6 +208,46 @@ class PDFGeneratorV5 {
           font: font,
           color: rgb(0, 0, 0)
         });
+      }
+
+      // === サービス期間開始日（年払の場合のみ印字） ===
+      // 商品①②③で支払方法が【年払】の場合のみ印字
+      // いえらぶ安心サポート（④）の場合は印字しない
+      const isProducts123 = ['anshin-support-24', 'home-assist-24', 'anshin-full-support'].includes(selectedProduct);
+      const isYearlyPayment = paymentMethod && paymentMethod.startsWith('yearly');
+      
+      if (servicePeriodStartDate && servicePeriodStartDate.trim() !== '' && servicePeriodStartDate !== '未入力' && isProducts123 && isYearlyPayment) {
+        const dateParts = servicePeriodStartDate.split('-'); // ISO形式: YYYY-MM-DD
+        if (dateParts.length === 3) {
+          const [year, month, day] = dateParts;
+          
+          // 開始日（YYYY）
+          page.drawText(year, {
+            x: 153,
+            y: 490,
+            size: fontSize.large, // 12pt
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+          
+          // 開始日（MM）
+          page.drawText(month, {
+            x: 213,
+            y: 490,
+            size: fontSize.large, // 12pt
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+          
+          // 開始日（DD）
+          page.drawText(day, {
+            x: 273,
+            y: 490,
+            size: fontSize.large, // 12pt
+            font: font,
+            color: rgb(0, 0, 0)
+          });
+        }
       }
 
       // === サービス提供価格（月払の場合のみ印字） ===
@@ -408,7 +449,8 @@ class PDFGeneratorV5 {
       }
       
       // 生年月日を分割（YYYY/MM/DD形式を想定）
-      if (birthDate) {
+      // （値がない場合や「未入力」の場合は印字しない）
+      if (birthDate && birthDate.trim() !== '' && birthDate !== '未入力') {
         const birthParts = birthDate.split('-'); // ISO形式: YYYY-MM-DD
         if (birthParts.length === 3) {
           const [year, month, day] = birthParts;
@@ -443,6 +485,8 @@ class PDFGeneratorV5 {
       }
       
       // 性別（チェックマーク）
+      // 値が設定されている場合のみ印字（'male'または'female'）
+      // 空文字列の場合は印字しない
       if (gender === 'male') {
         // 男性の場合
         page.drawText('✓', {
