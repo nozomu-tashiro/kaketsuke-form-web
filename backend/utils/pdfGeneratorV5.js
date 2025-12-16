@@ -234,19 +234,22 @@ class PDFGeneratorV5 {
           } else if (isMonthlyPayment) {
             // 月払の座標
             coords = {
-              year: { x: 278, y: 492 },
-              month: { x: 320, y: 492 },
-              day: { x: 362, y: 492 }
+              year: { x: 278, y: 492, size: 14 },
+              month: { x: 325, y: 492, size: 14 },
+              day: { x: 367, y: 492, size: 14 }
             };
           }
           
           // 座標が設定されている場合のみ印字
           if (coords) {
+            // フォントサイズを取得（年払は12pt、月払は14pt）
+            const textSize = coords.year.size || fontSize.large;
+            
             // 開始日（YYYY）
             page.drawText(year, {
               x: coords.year.x,
               y: coords.year.y,
-              size: fontSize.large, // 12pt
+              size: textSize,
               font: font,
               color: rgb(0, 0, 0)
             });
@@ -255,7 +258,7 @@ class PDFGeneratorV5 {
             page.drawText(month, {
               x: coords.month.x,
               y: coords.month.y,
-              size: fontSize.large, // 12pt
+              size: textSize,
               font: font,
               color: rgb(0, 0, 0)
             });
@@ -264,7 +267,7 @@ class PDFGeneratorV5 {
             page.drawText(day, {
               x: coords.day.x,
               y: coords.day.y,
-              size: fontSize.large, // 12pt
+              size: textSize,
               font: font,
               color: rgb(0, 0, 0)
             });
