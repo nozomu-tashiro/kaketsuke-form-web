@@ -227,9 +227,9 @@ class PDFGeneratorV5 {
           // 商品④いえらぶ安心サポートの座標
           if (selectedProduct === 'ierabu-anshin-support') {
             coords = {
-              year: { x: 183, y: 455 },
-              month: { x: 240, y: 455 },
-              day: { x: 275, y: 455 }
+              year: { x: 184, y: 453 },
+              month: { x: 240, y: 453 },
+              day: { x: 277, y: 453 }
             };
           }
           // 商品①②③の座標（年払と月払で異なる）
