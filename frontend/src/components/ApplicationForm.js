@@ -801,11 +801,10 @@ const ApplicationForm = () => {
                   type="checkbox"
                   checked={accordionState.emergencyContact}
                   onChange={() => toggleAccordion('emergencyContact')}
-                  disabled
                 />
                 <h2 className="section-title">
                   緊急連絡先
-                  <span className="warning-text">※現在入力できません</span>
+                  <span className="warning-text">※シニア向け総合見守りサービスを付帯する場合は、緊急連絡先のご登録（お届け）が必須となります。</span>
                 </h2>
               </label>
             </div>
