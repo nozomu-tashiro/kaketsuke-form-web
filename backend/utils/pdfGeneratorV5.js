@@ -625,7 +625,7 @@ class PDFGeneratorV5 {
           
           // お名前
           if (resident1.name && resident1.name.trim() !== '' && resident1.name !== '未入力') {
-            const nameText = this.fitTextInBox(resident1.name, 90, fontSize.large, font);
+            const nameText = this.fitTextInBox(resident1.name, 100, fontSize.large, font);
             page.drawText(nameText, {
               x: 153,
               y: 530,
@@ -651,8 +651,8 @@ class PDFGeneratorV5 {
           if (resident1.relationship && resident1.relationship.trim() !== '' && resident1.relationship !== '未入力') {
             const relText = this.fitTextInBox(resident1.relationship, 30, 8, font);
             page.drawText(relText, {
-              x: 298,
-              y: 520,
+              x: 296,
+              y: 530,
               size: 8, // 8pt
               font: font,
               color: rgb(0, 0, 0)
@@ -666,7 +666,7 @@ class PDFGeneratorV5 {
           
           // お名前
           if (resident2.name && resident2.name.trim() !== '' && resident2.name !== '未入力') {
-            const nameText = this.fitTextInBox(resident2.name, 90, fontSize.large, font);
+            const nameText = this.fitTextInBox(resident2.name, 100, fontSize.large, font);
             page.drawText(nameText, {
               x: 378,
               y: 530,
@@ -692,8 +692,8 @@ class PDFGeneratorV5 {
           if (resident2.relationship && resident2.relationship.trim() !== '' && resident2.relationship !== '未入力') {
             const relText = this.fitTextInBox(resident2.relationship, 30, 8, font);
             page.drawText(relText, {
-              x: 523,
-              y: 520,
+              x: 520,
+              y: 530,
               size: 8, // 8pt
               font: font,
               color: rgb(0, 0, 0)
